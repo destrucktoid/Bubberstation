@@ -75,7 +75,11 @@
 	//user.eye_color = random_eye_color()
 	if(prev_disfigured)
 		REMOVE_TRAIT(user, TRAIT_DISFIGURED, null)
+	/* Bubberstation change: random_features() was removed by SR thanks to their modularisation, this is beyond our coding knowledge to fix.
+	Furthermore, with how random_features() works, you could end up looking like some kind of eldritch abomination with a xenodorsal, moth wings, akula tail and
+	would likely stick out like a sore thumb rather than being hidden. This could be fixed with effort but again, lack of coding knowledge.
 	user.dna.features = random_features()
+	*/
 
 	// Apply Appearance
 	user.update_body(is_creating = TRUE) // Outfit and underware, also body.
