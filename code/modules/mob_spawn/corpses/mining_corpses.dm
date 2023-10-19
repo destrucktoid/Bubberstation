@@ -16,25 +16,22 @@
 
 //Legion infested mobs
 
-/// Mob spawner used by Legion to spawn costumed bodies
+//dwarf type which spawns dwarfy versions
+/obj/effect/mob_spawn/corpse/human/legioninfested/dwarf
+
+/obj/effect/mob_spawn/corpse/human/legioninfested/dwarf/special(mob/living/carbon/human/spawned_human)
+	. = ..()
+	spawned_human.dna.add_mutation(/datum/mutation/human/dwarfism)
+
+//main type, rolls a pool of legion victims
 /obj/effect/mob_spawn/corpse/human/legioninfested
 	brute_damage = 1000
 
 /obj/effect/mob_spawn/corpse/human/legioninfested/Initialize(mapload)
-	outfit = select_outfit()
-	return ..()
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/special(mob/living/carbon/human/spawned_human)
-	. = ..()
-	var/obj/item/organ/internal/legion_tumour/cancer = new()
-	cancer.Insert(spawned_human, special = TRUE, drop_if_replaced = FALSE)
-
-/// Returns the outfit worn by our corpse
-/obj/effect/mob_spawn/corpse/human/legioninfested/proc/select_outfit()
 	var/corpse_theme = pick_weight(list(
-		"Miner" = 64,
-		"Clown" = 5,
-		"Ashwalker" = 15,
+		"Miner" = 66,
+		"Ashwalker" = 10,
+		"Clown" = 10,
 		"Golem" = 10,
 		pick(list(
 			"Cultist",
@@ -43,91 +40,24 @@
 			"Shadow",
 		)) = 4,
 	))
-
 	switch(corpse_theme)
 		if("Miner")
-			return /datum/outfit/consumed_miner
+			outfit = /datum/outfit/consumed_miner
 		if("Ashwalker")
-			return /datum/outfit/consumed_ashwalker
-		if("Golem")
-			return /datum/outfit/consumed_golem
+			outfit = /datum/outfit/consumed_ashwalker
 		if("Clown")
-			return /datum/outfit/consumed_clown
+			outfit = /datum/outfit/consumed_clown
 		if("Cultist")
-			return /datum/outfit/consumed_cultist
+			outfit = /datum/outfit/consumed_cultist
 		if("Dame")
-			return /datum/outfit/consumed_dame
-		if("Operative")
-			return /datum/outfit/syndicatecommandocorpse/lessenedgear
-		if("Shadow")
-			return /datum/outfit/consumed_shadowperson
-
-/// Corpse spawner used by dwarf legions to make small corpses
-/obj/effect/mob_spawn/corpse/human/legioninfested/dwarf
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/dwarf/special(mob/living/carbon/human/spawned_human)
-	. = ..()
-	spawned_human.dna.add_mutation(/datum/mutation/human/dwarfism)
-
-/// Corpse spawner used by snow legions with alternate costumes
-/obj/effect/mob_spawn/corpse/human/legioninfested/snow
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/snow/select_outfit()
-	var/corpse_theme = pick_weight(list(
-		"Miner" = 64,
-		"Clown" = 5,
-		"Golem" = 15,
-		"Settler" = 10,
-		pick(list(
-			"Cultist",
-			"Heremoth",
-			"Operative",
-			"Shadow",
-		)) = 4,
-	))
-
-	switch(corpse_theme)
-		if("Miner")
-			return /datum/outfit/consumed_miner
-		if("Settler")
-			return /datum/outfit/consumed_ice_settler
-		if("Heremoth")
-			return /datum/outfit/consumed_heremoth
-		if("Clown")
-			return /datum/outfit/consumed_clown
-		if("Cultist")
-			return /datum/outfit/consumed_cultist
+			outfit = /datum/outfit/consumed_dame
 		if("Golem")
-			return /datum/outfit/consumed_golem
+			outfit = /datum/outfit/consumed_golem
 		if("Operative")
-			return /datum/outfit/syndicatecommandocorpse/lessenedgear
+			outfit = /datum/outfit/syndicatecommandocorpse/lessenedgear
 		if("Shadow")
-			return /datum/outfit/consumed_shadowperson
-
-/// Creates a dead legion-infested skeleton
-/obj/effect/mob_spawn/corpse/human/legioninfested/skeleton
-	name = "legion-infested skeleton"
-	mob_name = "skeleton"
-	mob_species = /datum/species/skeleton
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/skeleton/select_outfit()
-	return null
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/skeleton/special(mob/living/carbon/human/spawned_human)
+			outfit = /datum/outfit/consumed_shadowperson
 	. = ..()
-	spawned_human.gender = NEUTER
-
-/// Creates a dead and burned legion-infested skeleton
-/obj/effect/mob_spawn/corpse/human/legioninfested/skeleton/charred
-	name = "charred legion-infested skeleton"
-	mob_name = "charred skeleton"
-	brute_damage = 0
-	burn_damage = 1000
-
-/obj/effect/mob_spawn/corpse/human/legioninfested/skeleton/charred/special(mob/living/carbon/human/spawned_human)
-	. = ..()
-	spawned_human.color = "#454545"
-
 
 /datum/outfit/consumed_miner
 	name = "Legion-Consumed Miner"
@@ -292,36 +222,6 @@
 	if(prob(50))
 		neck = /obj/item/bedsheet/rd/royal_cape
 
-/datum/outfit/consumed_ice_settler
-	name = "Legion-Consumed Settler"
-	uniform = /obj/item/clothing/under/costume/traditional
-	suit = /obj/item/clothing/suit/hooded/wintercoat
-	shoes = /obj/item/clothing/shoes/winterboots
-	mask = /obj/item/clothing/mask/breath
-
-/datum/outfit/consumed_ice_settler/pre_equip(mob/living/carbon/human/ice_settler, visualsOnly = FALSE)
-	if(prob(40))
-		r_pocket = pick_weight(list(
-			/obj/item/coin/silver = 5,
-			/obj/item/fishing_hook = 2,
-			/obj/item/coin/gold = 2,
-			/obj/item/fishing_hook/shiny = 1,
-		))
-	if(prob(30))
-		back = pick_weight(list(
-			/obj/item/pickaxe = 4,
-			/obj/item/tank/internals/oxygen = 6,
-		))
-	else
-		back = /obj/item/storage/backpack/satchel/explorer
-		backpack_contents = list()
-		var/backpack_loot = pick(list(
-			/obj/item/food/fishmeat = 89,
-			/obj/item/food/fishmeat/carp = 10,
-			/obj/item/skeleton_key = 1,
-		))
-		backpack_contents += backpack_loot
-
 //this is so pointlessly gendered but whatever bro i'm here to refactor not judge
 /datum/outfit/consumed_dame
 	name = "Legion-Consumed Dame"
@@ -374,26 +274,3 @@
 		/obj/item/stack/sheet/runed_metal = 15,
 		)
 	r_pocket = /obj/item/clothing/glasses/hud/health/night/cultblind
-
-/datum/outfit/consumed_heremoth
-	name = "Legion-Consumed Tribal Mothman"
-	uniform = /obj/item/clothing/under/costume/loincloth
-	suit = /obj/item/clothing/suit/hooded/cultrobes/eldritch
-	head = /obj/item/clothing/head/hooded/cult_hoodie/eldritch
-
-/datum/outfit/consumed_heremoth/pre_equip(mob/living/carbon/human/moth, visualsOnly = FALSE)
-	if(!visualsOnly)
-		moth.set_species(/datum/species/moth)
-	if(prob(70))
-		glasses = /obj/item/clothing/glasses/blindfold
-	if(prob(90))
-		back = /obj/item/storage/backpack/cultpack
-		backpack_contents = list()
-		var/backpack_loot = pick(list(
-			/obj/item/flashlight/lantern = 1,
-			/obj/item/toy/plush/moth = 1,
-			/obj/item/toy/eldritch_book = 2,
-			/obj/item/knife/combat/survival = 2,
-		))
-		backpack_contents += backpack_loot
-

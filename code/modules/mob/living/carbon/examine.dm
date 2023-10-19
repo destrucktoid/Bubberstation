@@ -154,7 +154,7 @@
 
 	SEND_SIGNAL(src, COMSIG_ATOM_EXAMINE, user, .)
 
-//SKYRAT EDIT REMOVAL - MOVED - MEDICAL - carbon_examine.dm
+//SKYRAT EDIT REMOVAL - MOVED - MEDICAL
 /*
 /mob/living/carbon/examine_more(mob/user)
 	. = ..()

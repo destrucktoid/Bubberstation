@@ -138,7 +138,10 @@
 /obj/item/storage/medkit/brute,
 /obj/structure/table/wood,
 /obj/item/storage/medkit/brute,
-/obj/item/areaeditor/blueprints/golem,
+/obj/item/areaeditor/blueprints{
+	desc = "Use to build new structures in the wastes.";
+	name = "land claim"
+	},
 /turf/open/floor/mineral/titanium/purple,
 /area/ruin/powered/golem_ship)
 "D" = (

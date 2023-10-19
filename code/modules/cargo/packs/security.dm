@@ -3,6 +3,8 @@
 	access = ACCESS_SECURITY
 	crate_type = /obj/structure/closet/crate/secure/gear
 
+// SKYRAT EDIT REMOVAL BEGIN - CARGO ARMAMENTS
+/*
 /datum/supply_pack/security/ammo
 	name = "Ammo Crate"
 	desc = "Contains three boxes of beanbag shotgun shells, three boxes \
@@ -16,7 +18,11 @@
 					/obj/item/ammo_box/c38/iceblox,
 				)
 	crate_name = "ammo crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
+// SKYRAT EDIT REMOVAL BEGIN - Moved to modular
+/*
 /datum/supply_pack/security/armor
 	name = "Armor Crate"
 	desc = "Three vests of well-rounded, decently-protective armor."
@@ -24,11 +30,13 @@
 	access_view = ACCESS_SECURITY
 	contains = list(/obj/item/clothing/suit/armor/vest = 3)
 	crate_name = "armor crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/disabler
 	name = "Disabler Crate"
 	desc = "Three stamina-draining disabler weapons."
-	cost = CARGO_CRATE_VALUE * 3
+	cost = CARGO_CRATE_VALUE * 5 //SKYRAT EDIT 3 -> 5
 	access_view = ACCESS_SECURITY
 	contains = list(/obj/item/gun/energy/disabler = 3)
 	crate_name = "disabler crate"
@@ -49,6 +57,8 @@
 				)
 	crate_name = "forensics crate"
 
+// SKYRAT EDIT REMOVAL BEGIN - Moved to modular
+/*
 /datum/supply_pack/security/helmets
 	name = "Helmets Crate"
 	desc = "Contains three standard-issue brain buckets."
@@ -63,6 +73,8 @@
 	access_view = ACCESS_ARMORY
 	contains = list(/obj/item/gun/energy/laser = 3)
 	crate_name = "laser crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/securitybarriers
 	name = "Security Barrier Grenades"
@@ -72,6 +84,8 @@
 	cost = CARGO_CRATE_VALUE * 2
 	crate_name = "security barriers crate"
 
+// SKYRAT EDIT REMOVAL BEGIN - SEC_HAUL
+/*
 /datum/supply_pack/security/securityclothes
 	name = "Security Clothing Crate"
 	desc = "Contains appropriate outfits for the station's private security force. \
@@ -90,6 +104,8 @@
 					/obj/item/clothing/head/hats/hos/beret/navyhos,
 				)
 	crate_name = "security clothing crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/stingpack
 	name = "Stingbang Grenade Pack"
@@ -199,6 +215,8 @@
 	contains = list(/obj/item/storage/box/chemimp)
 	crate_name = "chemical implant crate"
 
+// SKYRAT EDIT REMOVAL BEGIN - CARGO ARMAMENTS
+/*
 /datum/supply_pack/security/armory/ballistic
 	name = "Combat Shotguns Crate"
 	desc = "For when the enemy absolutely needs to be replaced with lead. \
@@ -207,6 +225,8 @@
 	contains = list(/obj/item/gun/ballistic/shotgun/automatic/combat = 3,
 					/obj/item/storage/belt/bandolier = 3)
 	crate_name = "combat shotguns crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/armory/dragnet
 	name = "DRAGnet Crate"
@@ -216,6 +236,8 @@
 	contains = list(/obj/item/gun/energy/e_gun/dragnet = 3)
 	crate_name = "\improper DRAGnet crate"
 
+// SKYRAT EDIT REMOVAL BEGIN - CARGO ARMAMENTS
+/*
 /datum/supply_pack/security/armory/energy
 	name = "Energy Guns Crate"
 	desc = "Contains two Energy Guns, capable of firing both nonlethal and lethal \
@@ -224,6 +246,8 @@
 	contains = list(/obj/item/gun/energy/e_gun = 2)
 	crate_name = "energy gun crate"
 	crate_type = /obj/structure/closet/crate/secure/plasma
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/armory/exileimp
 	name = "Exile Implants Crate"
@@ -309,6 +333,8 @@
 				)
 	crate_name = "swat crate"
 
+// SKYRAT EDIT REMOVAL BEGIN - CARGO ARMAMENTS
+/*
 /datum/supply_pack/security/armory/thermal
 	name = "Thermal Pistol Crate"
 	desc = "Contains a pair of holsters each with two experimental thermal pistols, \
@@ -316,6 +342,8 @@
 	cost = CARGO_CRATE_VALUE * 7
 	contains = list(/obj/item/storage/belt/holster/energy/thermal = 2)
 	crate_name = "thermal pistol crate"
+*/
+// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/security/sunglasses
 	name = "Sunglasses Crate"

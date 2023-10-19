@@ -6,6 +6,7 @@
 	mob_biotypes = MOB_ROBOTIC
 	stop_automated_movement = TRUE
 	wander = FALSE
+	healable = FALSE
 	damage_coeff = list(BRUTE = 1, BURN = 1, TOX = 0, CLONE = 0, STAMINA = 0, OXY = 0)
 	atmos_requirements = list("min_oxy" = 0, "max_oxy" = 0, "min_plas" = 0, "max_plas" = 0, "min_co2" = 0, "max_co2" = 0, "min_n2" = 0, "max_n2" = 0)
 	hud_possible = list(DIAG_STAT_HUD, DIAG_BOT_HUD, DIAG_HUD, DIAG_BATT_HUD, DIAG_PATH_HUD = HUD_LIST_LIST)
@@ -26,7 +27,6 @@
 	light_system = MOVABLE_LIGHT
 	light_range = 3
 	light_power = 0.9
-	del_on_death = TRUE
 
 	///Will other (noncommissioned) bots salute this bot?
 	var/commissioned = FALSE
@@ -104,6 +104,8 @@
 	var/reset_access_timer_id
 	var/ignorelistcleanuptimer = 1 // This ticks up every automated action, at 300 we clean the ignore list
 
+	/// Component which allows ghosts to take over this bot
+	var/datum/component/ghost_direct_control/personality_download
 	/// If true we will allow ghosts to control this mob
 	var/can_be_possessed = FALSE
 	/// If true we will offer this
@@ -131,12 +133,6 @@
 	if(!(bot_mode_flags & BOT_MODE_ON))
 		return "Inactive"
 	return "[mode]"
-
-/**
- * Returns a string of flavor text for emagged bots as defined by policy.
- */
-/mob/living/simple_animal/bot/proc/get_emagged_message()
-	return get_policy(ROLE_EMAGGED_BOT) || "You are a malfunctioning bot! Disrupt everyone and cause chaos!"
 
 /mob/living/simple_animal/bot/proc/turn_on()
 	if(stat)
@@ -207,9 +203,11 @@
 	pa_system.Grant(src)
 
 /mob/living/simple_animal/bot/Destroy()
+	if(paicard)
+		ejectpai()
 	GLOB.bots_list -= src
-	QDEL_NULL(paicard)
 	QDEL_NULL(pa_system)
+	QDEL_NULL(personality_download)
 	QDEL_NULL(internal_radio)
 	QDEL_NULL(access_card)
 	QDEL_NULL(path_hud)
@@ -222,14 +220,14 @@
 		return
 	can_be_possessed = TRUE
 	var/can_announce = !mapload && COOLDOWN_FINISHED(src, offer_ghosts_cooldown)
-	AddComponent(
-		/datum/component/ghost_direct_control, \
-		ban_type = ROLE_BOT, \
-		poll_candidates = can_announce, \
-		poll_ignore_key = POLL_IGNORE_BOTS, \
-		assumed_control_message = (bot_cover_flags & BOT_COVER_EMAGGED) ? get_emagged_message() : possessed_message, \
-		extra_control_checks = CALLBACK(src, PROC_REF(check_possession)), \
-		after_assumed_control = CALLBACK(src, PROC_REF(post_possession)), \
+	personality_download = AddComponent(\
+		/datum/component/ghost_direct_control,\
+		ban_type = ROLE_BOT,\
+		poll_candidates = can_announce,\
+		poll_ignore_key = POLL_IGNORE_BOTS,\
+		assumed_control_message = possessed_message,\
+		extra_control_checks = CALLBACK(src, PROC_REF(check_possession)),\
+		after_assumed_control = CALLBACK(src, PROC_REF(post_possession)),\
 	)
 	if (can_announce)
 		COOLDOWN_START(src, offer_ghosts_cooldown, 30 SECONDS)
@@ -237,7 +235,7 @@
 /// Disables this bot from being possessed by ghosts
 /mob/living/simple_animal/bot/proc/disable_possession(mob/user)
 	can_be_possessed = FALSE
-	qdel(GetComponent(/datum/component/ghost_direct_control))
+	QDEL_NULL(personality_download)
 	if (isnull(key))
 		return
 	if (user)
@@ -309,8 +307,6 @@
 	return TRUE
 
 /mob/living/simple_animal/bot/death(gibbed)
-	if(paicard)
-		ejectpai()
 	explode()
 	return ..()
 
@@ -320,6 +316,7 @@
 	var/atom/location_destroyed = drop_location()
 	if(prob(50))
 		drop_part(robot_arm, location_destroyed)
+	qdel(src)
 
 /mob/living/simple_animal/bot/emag_act(mob/user, obj/item/card/emag/emag_card)
 	. = ..()
@@ -334,7 +331,6 @@
 		bot_reset()
 		turn_on() //The bot automatically turns on when emagged, unless recently hit with EMP.
 		to_chat(src, span_userdanger("(#$*#$^^( OVERRIDE DETECTED"))
-		to_chat(src, span_boldnotice(get_emagged_message()))
 		if(user)
 			log_combat(user, src, "emagged")
 		return TRUE
@@ -1022,8 +1018,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 				message_admins("Safety lock of [ADMIN_LOOKUPFLW(src)] was disabled by [ADMIN_LOOKUPFLW(usr)] in [ADMIN_VERBOSEJMP(src)]")
 				usr.log_message("disabled safety lock of [src]", LOG_GAME)
 				bot_reset()
-				to_chat(src, span_userdanger("(#$*#$^^( OVERRIDE DETECTED"))
-				to_chat(src, span_boldnotice(get_emagged_message()))
 				return
 			if(!(bot_cover_flags & BOT_COVER_HACKED))
 				to_chat(usr, span_boldannounce("You fail to repair [src]'s [hackables]."))
@@ -1032,8 +1026,6 @@ Pass a positive integer as an argument to override a bot's default speed.
 			to_chat(usr, span_notice("You reset the [src]'s [hackables]."))
 			usr.log_message("re-enabled safety lock of [src]", LOG_GAME)
 			bot_reset()
-			to_chat(src, span_userdanger("Software restored to standard."))
-			to_chat(src, span_boldnotice(possessed_message))
 		if("eject_pai")
 			if(!paicard)
 				return

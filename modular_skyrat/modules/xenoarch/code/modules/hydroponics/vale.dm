@@ -24,5 +24,5 @@
 	filling_color = "#FF4500"
 	bite_consumption_mod = 0.5
 	foodtypes = FRUIT
-	juice_typepath = /datum/reagent/medicine/neurine
+	juice_results = list(/datum/reagent/medicine/neurine = 0)
 	tastes = list("medicine" = 1)

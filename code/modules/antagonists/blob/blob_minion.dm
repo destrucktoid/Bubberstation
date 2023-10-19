@@ -34,3 +34,9 @@
 	objective.owner = owner
 	objective.overmind = overmind
 	objectives += objective
+
+/datum/antagonist/blob_minion/blobbernaut
+	name = "\improper Blobbernaut"
+
+/datum/antagonist/blob_minion/blob_zombie
+	name = "\improper Blob Zombie"

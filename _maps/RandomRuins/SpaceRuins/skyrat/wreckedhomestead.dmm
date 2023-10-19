@@ -76,11 +76,16 @@
 /area/ruin/unpowered)
 "mP" = (
 /obj/structure/table/reinforced,
-/obj/item/surgery_tray/full,
+/obj/item/storage/backpack/duffelbag/med/surgery,
 /obj/item/reagent_containers/cup/beaker/cryoxadone,
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
 	dir = 5
 	},
+/obj/effect/mapping_helpers/burnt_floor,
+/turf/open/floor/iron/airless,
+/area/ruin/unpowered)
+"oa" = (
+/obj/machinery/rnd/bepis,
 /obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/iron/airless,
 /area/ruin/unpowered)
@@ -128,11 +133,6 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron/dark/airless,
 /area/ruin/unpowered)
-"tP" = (
-/obj/machinery/cryo_cell,
-/obj/effect/mapping_helpers/burnt_floor,
-/turf/open/floor/plating/airless,
-/area/ruin/unpowered)
 "ve" = (
 /obj/machinery/atmospherics/components/unary/thermomachine/freezer{
 	dir = 1
@@ -158,6 +158,11 @@
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/hidden{
 	dir = 4
 	},
+/turf/open/floor/plating/airless,
+/area/ruin/unpowered)
+"Az" = (
+/obj/machinery/atmospherics/components/unary/cryo_cell,
+/obj/effect/mapping_helpers/burnt_floor,
 /turf/open/floor/plating/airless,
 /area/ruin/unpowered)
 "Bf" = (
@@ -1204,7 +1209,7 @@ wY
 Bf
 Wp
 Bf
-tP
+Az
 Dh
 ve
 mP
@@ -1271,7 +1276,7 @@ Wv
 kN
 dL
 Bf
-kN
+oa
 Bf
 Bf
 Bf

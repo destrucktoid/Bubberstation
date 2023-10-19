@@ -42,7 +42,7 @@
 	name = "Duct Spider Crate"
 	desc = "Awww! Straight from the Australicus sector to your station's ventilation system!"
 	cost = CARGO_CRATE_VALUE * 6
-	contains = list(/mob/living/basic/spider/maintenance)
+	contains = list(/mob/living/basic/giant_spider/maintenance)
 	crate_name = "duct spider crate"
 	crate_type = /obj/structure/closet/crate/critter
 
@@ -50,7 +50,7 @@
 	name = "Duct Spider Crate?"
 	desc = "Wait, is this the right crate? It has a frowny face, what does that mean?"
 	cost = CARGO_CRATE_VALUE * 6
-	contains = list(/mob/living/basic/spider/giant/hunter)
+	contains = list(/mob/living/basic/giant_spider/hunter)
 	contraband = TRUE
 
 /datum/supply_pack/imports/bamboo50
@@ -201,8 +201,6 @@
 		/obj/item/grenade/mirage = 5,
 	)
 
-// SKYRAT EDIT REMOVAL BEGIN - REPLACED BY LORE BEFITTING CRATE AT: modular_skyrat/modules/cargo/code/packs.dm
-/*
 /datum/supply_pack/imports/russian
 	name = "Russian Surplus Military Gear Crate"
 	desc = "Hello <;~insert appropriate greeting here: 'Comrade'|'Imperalist Scum'|'Quartermaster of Reputable Station'~;>, \
@@ -212,10 +210,10 @@
 	cost = CARGO_CRATE_VALUE * 12
 	contains = list(
 		/obj/item/food/rationpack,
-		/obj/item/ammo_box/strilka310,
-		/obj/item/ammo_box/strilka310/surplus,
-		/obj/item/storage/toolbox/ammobox/strilka310,
-		/obj/item/storage/toolbox/ammobox/strilka310/surplus,
+		/obj/item/ammo_box/a762,
+		/obj/item/ammo_box/a762/surplus,
+		/obj/item/storage/toolbox/ammobox/a762,
+		/obj/item/storage/toolbox/ammobox/a762/surplus,
 		/obj/item/storage/toolbox/maint_kit,
 		/obj/item/clothing/suit/armor/vest/russian,
 		/obj/item/clothing/head/helmet/rus_helmet,
@@ -226,18 +224,16 @@
 		/obj/item/clothing/mask/russian_balaclava,
 		/obj/item/clothing/head/helmet/rus_ushanka,
 		/obj/item/clothing/suit/armor/vest/russian_coat,
-		/obj/item/storage/toolbox/guncase/soviet = 2,
+		/obj/item/storage/toolbox/mosincase = 2,
 	)
 
 /datum/supply_pack/imports/russian/fill(obj/structure/closet/crate/our_crate)
 	for(var/items in 1 to 10)
 		var/item = pick(contains)
 		new item(our_crate)
-*/
-// SKYRAT EDIT REMOVAL END
 
 /datum/supply_pack/imports/moistnuggets
-	name = "Refurbished Sakhno Precision Rifle Crate"
+	name = "Refurbished Mosin Nagant Crate"
 	desc = "Hello Comrade Operative. You need gun? You hate garbage we sell to station normally? \
 		Then we have the perfect weapon for you! Special price for good friends! \
 		We don't have enough spare ammo, so you'll have to pick up the weapon of \
@@ -295,27 +291,3 @@
 	cost = CARGO_CRATE_VALUE * 5
 	contains = list(/obj/item/reagent_containers/cup/glass/bottle/juice/dreadnog = 3)
 	crate_name = "dreadnog crate"
-
-/* BUBBER EDIT - No craftable slappy
-/datum/supply_pack/imports/giant_wrench_parts
-	name = "Big Slappy parts"
-	desc = "Illegal Big Slappy parts. The fastest and statistically most dangerous wrench."
-	cost = CARGO_CRATE_VALUE * 22
-	contraband = TRUE
-	contains = list(/obj/item/weaponcrafting/giant_wrench)
-	crate_name = "unknown parts crate"
-
-/datum/supply_pack/imports/materials_market
-	name = "Galactic Materials Market Crate"
-	desc = "A circuit board to build your own materials market for use by certified market traders. Warning: Losses are not covered by insurance."
-	cost = CARGO_CRATE_VALUE * 3
-	contains = list(
-		/obj/item/circuitboard/machine/materials_market = 1,
-		/obj/item/stack/sheet/iron = 5,
-		/obj/item/stack/cable_coil/five = 2,
-		/obj/item/stock_parts/scanning_module = 1,
-		/obj/item/stock_parts/card_reader = 1
-	)
-	crate_name = "materials market crate"
-	crate_type = /obj/structure/closet/crate
-*/

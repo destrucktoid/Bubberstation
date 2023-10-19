@@ -11,22 +11,24 @@
 	if(!istype(Target, /obj/item/mod/control))
 		qdel(src)
 		return
-	if(ai_action)
-		background_icon_state = ACTION_BUTTON_DEFAULT_BACKGROUND
+	// SKYRAT EDIT START - pAIs in MODsuits
+	if(pai_action)
+		background_icon_state = "bg_tech"
+	// SKYRAT EDIT END
 
 /datum/action/item_action/mod/Grant(mob/user)
 	var/obj/item/mod/control/mod = target
-	if(ai_action && user != mod.ai_assistant)
+	if(pai_action && user != mod.mod_pai) // SKYRAT EDIT - pAIs in MODsuits
 		return
-	else if(!ai_action && user == mod.ai_assistant)
+	else if(!pai_action && user == mod.mod_pai) // SKYRAT EDIT - pAIs in MODsuits
 		return
 	return ..()
 
 /datum/action/item_action/mod/Remove(mob/user)
 	var/obj/item/mod/control/mod = target
-	if(ai_action && user != mod.ai_assistant)
+	if(pai_action && user != mod.mod_pai) // SKYRAT EDIT - pAIs in MODsuits
 		return
-	else if(!ai_action && user == mod.ai_assistant)
+	else if(!pai_action && user == mod.mod_pai) // SKYRAT EDIT - pAIs in MODsuits
 		return
 	return ..()
 
@@ -123,49 +125,40 @@
 	var/override = FALSE
 	/// Module we are linked to.
 	var/obj/item/mod/module/module
-	/// A reference to the mob we are pinned to.
-	var/mob/pinner
-	/// Timer until we remove our cooldown overlay
-	var/cooldown_timer
+	/// A ref to the mob we are pinned to.
+	var/pinner_ref
 
 /datum/action/item_action/mod/pinned_module/New(Target, obj/item/mod/module/linked_module, mob/user)
-	var/obj/item/mod/control/mod = Target
-	if(user == mod.ai_assistant)
+	// SKYRAT EDIT START - pAIs in MODsuits
+	var/obj/item/mod/control/mod = Target // We have to do this otherwise it's going to runtime
+	if(user == mod.mod_pai)
+		pai_action = TRUE
+	// SKYRAT EDIT END
+	if(isAI(user))
 		ai_action = TRUE
 	button_icon = linked_module.icon
 	button_icon_state = linked_module.icon_state
-	. = ..()
+	..()
 	module = linked_module
-	pinner = user
-	module.pinned_to[REF(user)] = src
 	if(linked_module.allow_flags & MODULE_ALLOW_INCAPACITATED)
 		// clears check hands and check conscious
 		check_flags = NONE
 	name = "Activate [capitalize(linked_module.name)]"
 	desc = "Quickly activate [linked_module]."
-	RegisterSignals(linked_module, list(
-		COMSIG_MODULE_ACTIVATED,
-		COMSIG_MODULE_DEACTIVATED,
-		COMSIG_MODULE_USED,
-	), PROC_REF(module_interacted_with))
-	RegisterSignal(linked_module, COMSIG_MODULE_COOLDOWN_STARTED, PROC_REF(cooldown_started))
-	RegisterSignal(user, COMSIG_QDELETING, PROC_REF(pinner_deleted))
+	RegisterSignals(linked_module, list(COMSIG_MODULE_ACTIVATED, COMSIG_MODULE_DEACTIVATED, COMSIG_MODULE_USED), PROC_REF(module_interacted_with))
 
 /datum/action/item_action/mod/pinned_module/Destroy()
-	deltimer(cooldown_timer)
-	UnregisterSignal(module, list(
-		COMSIG_MODULE_ACTIVATED,
-		COMSIG_MODULE_DEACTIVATED,
-		COMSIG_MODULE_COOLDOWN_STARTED,
-		COMSIG_MODULE_USED,
-	))
-	module.pinned_to -= REF(pinner)
+	UnregisterSignal(module, list(COMSIG_MODULE_ACTIVATED, COMSIG_MODULE_DEACTIVATED, COMSIG_MODULE_USED))
+	module.pinned_to -= pinner_ref
 	module = null
-	pinner = null
 	return ..()
 
 /datum/action/item_action/mod/pinned_module/Grant(mob/user)
-	if(pinner != user)
+	var/user_ref = REF(user)
+	if(!pinner_ref)
+		pinner_ref = user_ref
+		module.pinned_to[pinner_ref] = src
+	else if(pinner_ref != user_ref)
 		return
 	return ..()
 
@@ -174,11 +167,6 @@
 	if(!.)
 		return
 	module.on_select()
-
-/// If the guy whose UI we are pinned to got deleted
-/datum/action/item_action/mod/pinned_module/proc/pinner_deleted()
-	pinner = null
-	qdel(src)
 
 /datum/action/item_action/mod/pinned_module/apply_button_overlay(atom/movable/screen/movable/action_button/current_button, force)
 	current_button.cut_overlays()
@@ -191,19 +179,12 @@
 	else if(module.active)
 		current_button.add_overlay(image(icon = 'icons/hud/radial.dmi', icon_state = "module_active", layer = FLOAT_LAYER-0.1))
 	if(!COOLDOWN_FINISHED(module, cooldown_timer))
-		current_button.add_overlay(image(icon = 'icons/hud/radial.dmi', icon_state = "module_cooldown"))
+		var/image/cooldown_image = image(icon = 'icons/hud/radial.dmi', icon_state = "module_cooldown")
+		current_button.add_overlay(cooldown_image)
+		addtimer(CALLBACK(current_button, TYPE_PROC_REF(/image, cut_overlay), cooldown_image), COOLDOWN_TIMELEFT(module, cooldown_timer))
 	return ..()
 
 /datum/action/item_action/mod/pinned_module/proc/module_interacted_with(datum/source)
 	SIGNAL_HANDLER
 
 	build_all_button_icons(UPDATE_BUTTON_OVERLAY|UPDATE_BUTTON_STATUS)
-
-/datum/action/item_action/mod/pinned_module/proc/cooldown_started(datum/source, cooldown_time)
-	SIGNAL_HANDLER
-
-	deltimer(cooldown_timer)
-	build_all_button_icons(UPDATE_BUTTON_OVERLAY)
-	if (cooldown_time == 0)
-		return
-	cooldown_timer = addtimer(CALLBACK(src, PROC_REF(build_all_button_icons), UPDATE_BUTTON_OVERLAY), cooldown_time + 1, TIMER_STOPPABLE)

@@ -113,6 +113,10 @@
 /obj/effect/turf_decal/sand/plating,
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
+"y" = (
+/obj/item/gps/mining,
+/turf/open/misc/asteroid,
+/area/station/asteroid)
 "z" = (
 /obj/item/storage/bag/ore{
 	pixel_x = 6;
@@ -124,10 +128,6 @@
 "B" = (
 /obj/item/assembly/signaler,
 /turf/open/misc/asteroid,
-/area/station/asteroid)
-"C" = (
-/obj/item/gps/mining,
-/turf/open/misc/asteroid/dug,
 /area/station/asteroid)
 "D" = (
 /obj/item/relic,
@@ -1048,7 +1048,7 @@ b
 i
 i
 I
-C
+I
 Y
 i
 Y
@@ -1100,10 +1100,10 @@ B
 I
 I
 P
-Q
-Q
-Q
-Q
+y
+i
+i
+i
 Q
 Q
 Q
@@ -1126,10 +1126,10 @@ Y
 Y
 I
 Y
-Q
-Q
-Q
-Q
+i
+i
+i
+i
 Q
 Q
 Q

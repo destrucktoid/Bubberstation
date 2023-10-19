@@ -102,8 +102,6 @@
 		spawn_resin(iterated_turf)
 		if(iterated_turf == our_turf)
 			continue
-		if(isopenspaceturf(iterated_turf))
-			continue
 
 		if(hatcheries_to_spawn && prob(40))
 			hatcheries_to_spawn--
@@ -176,8 +174,7 @@
 				CALCULATE_ADJACENT_TURFS(T, NORMAL_TURF)
 
 		else
-			if(!isopenspaceturf(T)) // no spawning in openspace turfs
-				possible_locs += T
+			possible_locs += T
 
 	for(var/T in possible_locs)
 		var/turf/iterated_turf = T

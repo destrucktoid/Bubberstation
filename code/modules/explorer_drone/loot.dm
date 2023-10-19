@@ -111,7 +111,7 @@ GLOBAL_LIST_INIT(adventure_loot_generator_index,generate_generator_index())
 
 /obj/item/antique
 	name = "antique"
-	desc = "Valuable and completely incomprehensible."
+	desc = "Valuable and completly incomprehensible."
 	icon = 'icons/obj/exploration.dmi'
 	icon_state = "antique"
 

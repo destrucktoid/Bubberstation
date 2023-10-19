@@ -29,10 +29,11 @@
 			SSmodular_computers.purge_logs()
 			return TRUE
 		if("toggle_mass_pda")
-			if(!(params["ref"] in GLOB.pda_messengers))
+			var/obj/item/modular_computer/target_tablet = locate(params["ref"]) in GLOB.TabletMessengers
+			if(!istype(target_tablet))
 				return
-			var/datum/computer_file/program/messenger/target_messenger = GLOB.pda_messengers[params["ref"]]
-			target_messenger.spam_mode = !target_messenger.spam_mode
+			for(var/datum/computer_file/program/messenger/messenger_app in target_tablet.stored_files)
+				messenger_app.spam_mode = !messenger_app.spam_mode
 			return TRUE
 
 /datum/computer_file/program/ntnetmonitor/ui_data(mob/user)
@@ -55,14 +56,14 @@
 		data["ntnetlogs"] += list(list("entry" = i))
 
 	data["tablets"] = list()
-	for(var/messenger_ref in get_messengers_sorted_by_name())
-		var/datum/computer_file/program/messenger/app = GLOB.pda_messengers[messenger_ref]
-		var/obj/item/modular_computer/pda = app.computer
-
+	for(var/obj/item/modular_computer/messenger as anything in GetViewableDevices())
 		var/list/tablet_data = list()
-		tablet_data["enabled_spam"] = app.spam_mode
-		tablet_data["name"] = pda.saved_identification
-		tablet_data["ref"] = REF(app)
+		if(messenger.saved_identification)
+			for(var/datum/computer_file/program/messenger/messenger_app in computer.stored_files)
+				tablet_data["enabled_spam"] += messenger_app.spam_mode
+
+			tablet_data["name"] += messenger.saved_identification
+			tablet_data["ref"] += REF(messenger)
 
 		data["tablets"] += list(tablet_data)
 

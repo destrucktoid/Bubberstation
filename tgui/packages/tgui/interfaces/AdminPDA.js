@@ -1,11 +1,11 @@
-import { Section, Dropdown, Input, Box, TextArea } from '../components';
 import { useBackend, useLocalState } from '../backend';
-import { Button } from '../components/Button';
+import { Section, Dropdown, Input, Box, TextArea } from '../components';
+import { Button, ButtonCheckbox } from '../components/Button';
 import { Window } from '../layouts';
 
 export const AdminPDA = (props, context) => {
   return (
-    <Window title="Send PDA Message" width={300} height={575} theme="admin">
+    <Window title="Send Message on PDA" width={300} height={525} theme="admin">
       <Window.Content>
         <ReceiverChoice />
         <SenderInfo />
@@ -15,32 +15,19 @@ export const AdminPDA = (props, context) => {
   );
 };
 
-const ReceiverChoice = (props, context) => {
-  const { data } = useBackend(context);
-  const { users } = data;
-  const receivers = Array.from(Object.values(users));
+export const ReceiverChoice = (props, context) => {
+  const { act, data } = useBackend(context);
+  const receivers = Array.from(data.users).sort();
 
   const [user, setUser] = useLocalState(context, 'user', '');
   const [spam, setSpam] = useLocalState(context, 'spam', false);
-  const [showInvisible, setShowInvisible] = useLocalState(
-    context,
-    'showInvisible',
-    false
-  );
 
   return (
     <Section title="To Who?" textAlign="center">
       <Box>
         <Dropdown
-          disabled={spam}
-          selected={user}
-          displayText={user ? users[user].username : 'Pick a user...'}
-          options={receivers
-            .filter((rcvr) => showInvisible || !rcvr.invisible)
-            .map((rcvr) => ({
-              displayText: rcvr.username,
-              value: rcvr.ref,
-            }))}
+          selected="Pick a target"
+          options={receivers}
           width="275px"
           mb={1}
           onSelected={(value) => {
@@ -49,24 +36,15 @@ const ReceiverChoice = (props, context) => {
         />
       </Box>
       <Box>
-        <Button.Checkbox
-          checked={showInvisible}
-          fluid
-          onClick={() => setShowInvisible(!showInvisible)}
-          content="Include invisible?"
-        />
-        <Button.Checkbox
-          checked={spam}
-          fluid
-          onClick={() => setSpam(!spam)}
-          content="Should it be sent to everyone?"
-        />
+        <ButtonCheckbox checked={spam} fluid onClick={() => setSpam(!spam)}>
+          Should it be sent to everyone?
+        </ButtonCheckbox>
       </Box>
     </Section>
   );
 };
 
-const SenderInfo = (props, context) => {
+export const SenderInfo = (props, context) => {
   const [name, setName] = useLocalState(context, 'name', '');
   const [job, setJob] = useLocalState(context, 'job', '');
 
@@ -94,7 +72,7 @@ const SenderInfo = (props, context) => {
   );
 };
 
-const MessageInput = (props, context) => {
+export const MessageInput = (props, context) => {
   const { act } = useBackend(context);
 
   const [user, setUser] = useLocalState(context, 'user', '');
@@ -102,16 +80,9 @@ const MessageInput = (props, context) => {
   const [job, setJob] = useLocalState(context, 'job', '');
   const [messageText, setMessageText] = useLocalState(context, 'message', '');
   const [spam, setSpam] = useLocalState(context, 'spam', false);
-  const [force, setForce] = useLocalState(context, 'force', false);
-  const [showInvisible, setShowInvisible] = useLocalState(
-    context,
-    'showInvisible',
-    false
-  );
 
-  const tooltipText = function (name, job, message, target) {
+  const tooltipText = function (name, job, message) {
     let reasonList = [];
-    if (!target) reasonList.push('target');
     if (!name) reasonList.push('name');
     if (!job) reasonList.push('job');
     if (!message) reasonList.push('message text');
@@ -133,20 +104,11 @@ const MessageInput = (props, context) => {
         />
       </Box>
       <Box>
-        <Button.Checkbox
-          fluid
-          checked={force}
-          content="Force send the message?"
-          tooltip={
-            'This will immediately broadcast the message, bypassing telecomms altogether.'
-          }
-          onClick={() => setForce(!force)}
-        />
         <Button
           tooltip={
             blocked
               ? 'Fill in the following lines: ' +
-              tooltipText(name, job, messageText, spam || !!user)
+              tooltipText(name, job, messageText)
               : 'Send message to user(s)'
           }
           fluid
@@ -155,12 +117,10 @@ const MessageInput = (props, context) => {
           onClick={() =>
             act('sendMessage', {
               name: name,
+              user: user,
               job: job,
-              ref: user,
               message: messageText,
               spam: spam,
-              include_invisible: showInvisible,
-              force: force,
             })
           }>
           Send Message

@@ -2,8 +2,6 @@
 	action_cooldown = 2 SECONDS
 	/// How far can we see stuff?
 	var/vision_range = 9
-	/// Blackboard key for aggro range, uses vision range if not specified
-	var/aggro_range_key = BB_AGGRO_RANGE
 	/// Static typecache list of potentially dangerous objs
 	var/static/list/hostile_machines = typecacheof(list(/obj/machinery/porta_turret, /obj/vehicle/sealed/mecha))
 
@@ -16,17 +14,15 @@
 		CRASH("No target datum was supplied in the blackboard for [controller.pawn]")
 
 	var/atom/current_target = controller.blackboard[target_key]
-	if (targetting_datum.can_attack(living_mob, current_target, vision_range))
+	if (targetting_datum.can_attack(living_mob, current_target))
 		finish_action(controller, succeeded = FALSE)
 		return
 
-	var/aggro_range = controller.blackboard[aggro_range_key] || vision_range
-
 	controller.clear_blackboard_key(target_key)
-	var/list/potential_targets = hearers(aggro_range, controller.pawn) - living_mob //Remove self, so we don't suicide
+	var/list/potential_targets = hearers(vision_range, controller.pawn) - living_mob //Remove self, so we don't suicide
 
-	for(var/HM in typecache_filter_list(range(aggro_range, living_mob), hostile_machines)) //Can we see any hostile machines?
-		if(can_see(living_mob, HM, aggro_range))
+	for(var/HM in typecache_filter_list(range(vision_range, living_mob), hostile_machines)) //Can we see any hostile machines?
+		if(can_see(living_mob, HM, vision_range))
 			potential_targets += HM
 
 	if(!potential_targets.len)

@@ -32,8 +32,6 @@
 	var/facial_haircolor
 	///sets a human's skin tone
 	var/skin_tone
-	/// Weakref to the mob this spawner created - just if you needed to do something with it.
-	var/datum/weakref/spawned_mob_ref
 
 /obj/effect/mob_spawn/Initialize(mapload)
 	. = ..()
@@ -46,7 +44,6 @@
 	name_mob(spawned_mob, newname)
 	special(spawned_mob, mob_possessor)
 	equip(spawned_mob)
-	spawned_mob_ref = WEAKREF(spawned_mob)
 	return spawned_mob
 
 /obj/effect/mob_spawn/proc/special(mob/living/spawned_mob)
@@ -61,7 +58,6 @@
 		spawned_human.underwear = "Nude"
 		spawned_human.undershirt = "Nude"
 		spawned_human.socks = "Nude"
-		spawned_human.bra = "Nude" //SKYRAT EDIT ADDITION
 		if(hairstyle)
 			spawned_human.hairstyle = hairstyle
 		else
@@ -204,7 +200,7 @@
 		LAZYREMOVE(ckeys_trying_to_spawn, user_ckey)
 		return
 
-	if(is_banned_from(user.ckey, role_ban))
+	if(is_banned_from(user.key, role_ban))
 		to_chat(user, span_warning("You are banned from this role!"))
 		LAZYREMOVE(ckeys_trying_to_spawn, user_ckey)
 		return
@@ -238,7 +234,7 @@
  */
 /obj/effect/mob_spawn/ghost_role/proc/create_from_ghost(mob/dead/user)
 	ASSERT(istype(user))
-	var/user_ckey = user.ckey // We need to do it before everything else, because after the create() the ckey will already have been transferred.
+	var/user_ckey = user.ckey // We need to do it before everything else, because after the create() the ckey will already have been transfered.
 
 	user.log_message("became a [prompt_name].", LOG_GAME)
 	uses -= 1 // Remove a use before trying to spawn to prevent strangeness like the spawner trying to spawn more mobs than it should be able to
@@ -253,7 +249,6 @@
 		if(isnull(created)) // If we explicitly return FALSE instead of just not returning a mob, we don't want to spam the admins
 			CRASH("An instance of [type] didn't return anything when creating a mob, this might be broken!")
 
-	SEND_SIGNAL(src, COMSIG_GHOSTROLE_SPAWNED, created)
 	check_uses() // Now we check if the spawner should delete itself or not
 
 	return created

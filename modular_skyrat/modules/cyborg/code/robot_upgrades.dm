@@ -20,7 +20,7 @@
 			return FALSE
 
 		borg.hasShrunk = TRUE
-		ADD_TRAIT(borg, TRAIT_NO_TRANSFORM, REF(src))
+		borg.notransform = TRUE
 		var/prev_lockcharge = borg.lockcharge
 		borg.SetLockdown(1)
 		borg.set_anchored(TRUE)
@@ -34,7 +34,7 @@
 		if(!prev_lockcharge)
 			borg.SetLockdown(0)
 		borg.set_anchored(FALSE)
-		REMOVE_TRAIT(borg, TRAIT_NO_TRANSFORM, REF(src))
+		borg.notransform = FALSE
 		borg.update_transform(0.75)
 
 /obj/item/borg/upgrade/shrink/deactivate(mob/living/silicon/robot/borg, user = usr)

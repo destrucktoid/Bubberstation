@@ -6,9 +6,15 @@
 
 	for(var/b in bodyparts)
 		var/obj/item/bodypart/BP = b
-		var/obj/item/stack/medical/gauze/our_gauze = BP.current_gauze
-		if (!our_gauze)
-			continue
-		overlays.add_overlay(our_gauze.get_overlay_prefix())
+		if(BP.current_gauze && BP.current_gauze.overlay_prefix)
+			var/bp_suffix = BP.body_zone
+			if(BP.bodytype & BODYTYPE_DIGITIGRADE)
+				bp_suffix += "_digitigrade"
+			overlays.add_overlay("[BP.current_gauze.overlay_prefix]_[bp_suffix]")
+		if(BP.current_splint && BP.current_splint.overlay_prefix)
+			var/bp_suffix = BP.body_zone
+			if(BP.bodytype & BODYTYPE_DIGITIGRADE)
+				bp_suffix += "_digitigrade"
+			overlays.add_overlay("[BP.current_splint.overlay_prefix]_[bp_suffix]")
 
 	apply_overlay(BANDAGE_LAYER)

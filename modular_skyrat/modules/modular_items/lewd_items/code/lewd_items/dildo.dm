@@ -97,7 +97,7 @@
 		return
 
 	var/message = ""
-	if(!target.check_erp_prefs(/datum/preference/toggle/erp/sex_toy, user, src))
+	if(!target.client?.prefs?.read_preference(/datum/preference/toggle/erp/sex_toy))
 		to_chat(user, span_danger("[target] doesn't want you to do that."))
 		return
 
@@ -136,7 +136,7 @@
 				user.adjust_pleasure(8)
 
 		if(BODY_ZONE_HEAD, BODY_ZONE_PRECISE_MOUTH, BODY_ZONE_PRECISE_EYES) //Mouth only. Sorry, perverts. No eye/ear penetration for you today.
-			if(target.is_mouth_covered())
+			if(!target.is_mouth_covered())
 				to_chat(user, span_danger("Looks like [target]'s mouth is covered!"))
 				return FALSE
 
@@ -163,12 +163,12 @@
 		target.try_lewd_autoemote(pick(possible_emotes))
 
 	user.visible_message(span_purple("[user] [message]!"))
-	play_lewd_sound(loc, pick('modular_skyrat/modules/modular_items/lewd_items/sounds/bang1.ogg',
+	playsound(loc, pick('modular_skyrat/modules/modular_items/lewd_items/sounds/bang1.ogg',
 						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang2.ogg',
 						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang3.ogg',
 						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang4.ogg',
 						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang5.ogg',
-						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang6.ogg'), 100, TRUE)
+						'modular_skyrat/modules/modular_items/lewd_items/sounds/bang6.ogg'), 100, TRUE, ignore_walls = FALSE)
 
 /*
 *	COLOUR CHANGING
@@ -226,11 +226,6 @@ GLOBAL_LIST_INIT(dildo_colors, list(//mostly neon colors
 		customize(user)
 		color_changed = TRUE
 		return TRUE
-
-/obj/item/clothing/sextoy/dildo/custom_dildo/Initialize(mapload)
-	. = ..()
-	if(!length(dildo_sizes))
-		populate_dildo_designs()
 
 /// Choose a color and transparency level for the toy
 /obj/item/clothing/sextoy/dildo/custom_dildo/proc/customize(mob/living/user)
@@ -389,7 +384,7 @@ GLOBAL_LIST_INIT(dildo_colors, list(//mostly neon colors
 
 /// Code for taking out/putting away the other end of the toy when one end is in you
 /obj/item/clothing/sextoy/dildo/double_dildo/proc/toggle(mob/living/carbon/human/user)
-	play_lewd_sound(user, 'modular_skyrat/modules/modular_items/lewd_items/sounds/latex.ogg', 40, TRUE)
+	playsound(user, 'modular_skyrat/modules/modular_items/lewd_items/sounds/latex.ogg', 40, TRUE, ignore_walls = FALSE)
 
 	if(!end_in_hand)
 		take_in_hand(user)

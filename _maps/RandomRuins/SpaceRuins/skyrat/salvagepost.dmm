@@ -665,7 +665,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2{
 	dir = 8
 	},
-/mob/living/basic/hivebot,
+/mob/living/simple_animal/hostile/hivebot,
 /turf/open/floor/plating/plasma,
 /area/template_noop)
 "GG" = (
@@ -862,7 +862,7 @@
 /turf/open/floor/plating/plasma,
 /area/template_noop)
 "Ps" = (
-/mob/living/basic/hivebot/strong,
+/mob/living/simple_animal/hostile/hivebot/strong,
 /turf/open/floor/plating/plasma,
 /area/template_noop)
 "PB" = (
@@ -1056,7 +1056,7 @@
 "Yi" = (
 /obj/item/gun/energy/gravity_gun,
 /obj/structure/cable,
-/mob/living/basic/hivebot/range,
+/mob/living/simple_animal/hostile/hivebot/range,
 /turf/open/floor/plating/plasma,
 /area/template_noop)
 "YG" = (

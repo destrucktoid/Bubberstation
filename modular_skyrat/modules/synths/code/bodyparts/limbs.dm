@@ -8,6 +8,8 @@
 	should_draw_greyscale = TRUE
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ROBOTIC
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 	head_flags = HEAD_ALL_FEATURES
@@ -17,6 +19,8 @@
 	should_draw_greyscale = TRUE
 	limb_id = SPECIES_SYNTH
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -25,6 +29,8 @@
 	limb_id = SPECIES_SYNTH
 	should_draw_greyscale = TRUE
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -33,6 +39,8 @@
 	limb_id = SPECIES_SYNTH
 	should_draw_greyscale = TRUE
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -42,6 +50,8 @@
 	should_draw_greyscale = TRUE
 	digitigrade_type = /obj/item/bodypart/leg/left/robot/digitigrade
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -51,6 +61,8 @@
 	limb_id = SPECIES_SYNTH
 	digitigrade_type = /obj/item/bodypart/leg/right/robot/digitigrade
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -61,6 +73,8 @@
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ROBOTIC | BODYTYPE_DIGITIGRADE
 	base_limb_id = BODYPART_ID_DIGITIGRADE
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 
@@ -75,6 +89,8 @@
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ROBOTIC | BODYTYPE_DIGITIGRADE
 	base_limb_id = BODYPART_ID_DIGITIGRADE
 	change_exempt_flags = NONE
+	brute_modifier = 1
+	burn_modifier = 1
 	brute_modifier = SYNTH_BRUTE_MODIFIER
 	burn_modifier = SYNTH_BURN_MODIFIER
 

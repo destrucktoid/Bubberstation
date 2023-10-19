@@ -9,7 +9,7 @@
 
 	for(var/obj/structure/flora/plant in contents)
 		qdel(plant)
-	var/turf/T = GET_TURF_BELOW(src)
+	var/turf/T = below()
 	if(T)
 		if(T.turf_flags & NO_RUINS)
 			ChangeTurf(replacement_turf, null, CHANGETURF_IGNORE_AIR)

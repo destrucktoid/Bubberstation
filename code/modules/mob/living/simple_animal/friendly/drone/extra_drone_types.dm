@@ -27,7 +27,7 @@
 	"2. Kill.\n"+\
 	"3. Destroy."
 	default_storage = /obj/item/uplink
-	default_headwear = /obj/item/clothing/head/helmet/swat
+	default_hatmask = /obj/item/clothing/head/helmet/swat
 	hacked = TRUE
 	shy = FALSE
 	flavortext = null
@@ -49,7 +49,7 @@
 	W.implant(src, force = TRUE)
 
 /mob/living/simple_animal/drone/snowflake
-	default_headwear = /obj/item/clothing/head/chameleon/drone
+	default_hatmask = /obj/item/clothing/head/chameleon/drone
 
 /mob/living/simple_animal/drone/snowflake/Initialize(mapload)
 	. = ..()
@@ -65,11 +65,7 @@
 	you_are_text = "You are a Syndicate Maintenance Drone."
 	flavour_text = "In a prior life, you maintained a Nanotrasen Research Station. Abducted from your home, you were given some upgrades... and now serve an enemy of your former masters."
 	important_text = ""
-	spawner_job_path = /datum/job/syndrone
-
-/datum/job/syndrone
-	title = ROLE_SYNDICATE_DRONE
-	policy_index = ROLE_SYNDICATE_DRONE
+	spawner_job_path = /datum/job/ghost_role
 
 /obj/effect/mob_spawn/ghost_role/drone/syndrone/badass
 	name = "badass syndrone shell"
@@ -87,7 +83,7 @@
 
 /mob/living/simple_animal/drone/polymorphed
 	default_storage = null
-	default_headwear = null
+	default_hatmask = null
 	picked = TRUE
 	flavortext = null
 
@@ -124,15 +120,11 @@
 	you_are_text = "You are a drone on Kosmicheskaya Stantsiya 13."
 	flavour_text = "Something has brought you out of hibernation, and the station is in gross disrepair."
 	important_text = "Build, repair, maintain and improve the station that housed you on activation."
-	spawner_job_path = /datum/job/derelict_drone
-
-/datum/job/derelict_drone
-	title = ROLE_DERELICT_DRONE
-	policy_index = ROLE_DERELICT_DRONE
+	spawner_job_path = /datum/job/ghost_role
 
 /mob/living/simple_animal/drone/derelict
 	name = "derelict drone"
-	default_headwear = /obj/item/clothing/head/costume/ushanka
+	default_hatmask = /obj/item/clothing/head/costume/ushanka
 	laws = \
 	"1. You may not involve yourself in the matters of another sentient being outside the station that housed your activation, even if such matters conflict with Law Two or Law Three, unless the other being is another Drone.\n"+\
 	"2. You may not harm any sentient being, regardless of intent or circumstance.\n"+\

@@ -504,27 +504,15 @@
 /obj/item/borg/upgrade/processor/action(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if(.)
-		var/obj/item/surgical_processor/SP = locate() in R.model.modules // BUBBER EDIT added duiplication prevention
-		if(SP)
-			to_chat(user, span_warning("This unit is already equipped with A Surgical Processor!!"))
-			return FALSE
-
-		SP = new(R.model)
+		var/obj/item/surgical_processor/SP = new(R.model)
 		R.model.basic_modules += SP
 		R.model.add_module(SP, FALSE, TRUE)
-
-		for(var/obj/item/surgical_drapes/SD in R.model)// BUBBER EDIT Removes Surgical Drapes when processor is installed
-			R.model.remove_module(SD, TRUE)
 
 /obj/item/borg/upgrade/processor/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if (.)
 		var/obj/item/surgical_processor/SP = locate() in R.model
 		R.model.remove_module(SP, TRUE)
-
-		var/obj/item/surgical_drapes/SD = new (R.model) // BUBBER EDIT  Adds Surgical Drapes when Surgical Processor removed
-		R.model.basic_modules += SD
-		R.model.add_module(SD, FALSE, TRUE)
 
 /obj/item/borg/upgrade/ai
 	name = "B.O.R.I.S. module"
@@ -557,40 +545,39 @@
 
 /obj/item/borg/upgrade/expand/action(mob/living/silicon/robot/robot, user = usr)
 	. = ..()
-	if(!. || HAS_TRAIT(robot, TRAIT_NO_TRANSFORM))
-		return FALSE
+	if(.)
 
-	if(robot.hasExpanded)
-		to_chat(usr, span_warning("This unit already has an expand module installed!"))
-		return FALSE
-/*	// SKYRAT EDIT BEGIN - BUBBER EDIT REMOVAL
-	if(robot.model.model_select_icon == "nomod")
-		to_chat(usr, span_warning("Default models cannot take expand or shrink upgrades."))
-		return FALSE
-	if((R_TRAIT_WIDE in robot.model.model_features) || (R_TRAIT_TALL in robot.model.model_features))
-		to_chat(usr, span_warning("This unit's chassis cannot be enlarged any further."))
-		return FALSE
-*/
-	// SKYRAT EDIT END - BUBBER EDIT REMOVAL
+		if(robot.hasExpanded)
+			to_chat(usr, span_warning("This unit already has an expand module installed!"))
+			return FALSE
+/* 		// SKYRAT EDIT BEGIN - BUBBER EDIT REMOVAL
+		if(robot.model.model_select_icon == "nomod")
+			to_chat(usr, span_warning("Default models cannot take expand or shrink upgrades."))
+			return FALSE
+		if((R_TRAIT_WIDE in robot.model.model_features) || (R_TRAIT_TALL in robot.model.model_features))
+			to_chat(usr, span_warning("This unit's chassis cannot be enlarged any further."))
+			return FALSE*/
+		// SKYRAT EDIT END - BUBBER EDIT REMOVAL
 
 
-	ADD_TRAIT(robot, TRAIT_NO_TRANSFORM, REF(src))
-	var/prev_lockcharge = robot.lockcharge
-	robot.SetLockdown(TRUE)
-	robot.set_anchored(TRUE)
-	var/datum/effect_system/fluid_spread/smoke/smoke = new
-	smoke.set_up(1, holder = robot, location = robot.loc)
-	smoke.start()
-	sleep(0.2 SECONDS)
-	for(var/i in 1 to 4)
-		playsound(robot, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, TRUE, -1)
-		sleep(1.2 SECONDS)
-	if(!prev_lockcharge)
-		robot.SetLockdown(FALSE)
-	robot.set_anchored(FALSE)
-	REMOVE_TRAIT(robot, TRAIT_NO_TRANSFORM, REF(src))
-	robot.hasExpanded = TRUE
-	robot.update_transform(1.5) // SKYRAT EDIT CHANGE - ORIGINAL: robot.update_transform(2)
+		robot.notransform = TRUE
+		var/prev_lockcharge = robot.lockcharge
+		robot.SetLockdown(TRUE)
+		robot.set_anchored(TRUE)
+		var/datum/effect_system/fluid_spread/smoke/smoke = new
+		smoke.set_up(1, holder = robot, location = robot.loc)
+		smoke.start()
+		sleep(0.2 SECONDS)
+		for(var/i in 1 to 4)
+			playsound(robot, pick('sound/items/drill_use.ogg', 'sound/items/jaws_cut.ogg', 'sound/items/jaws_pry.ogg', 'sound/items/welder.ogg', 'sound/items/ratchet.ogg'), 80, TRUE, -1)
+			sleep(1.2 SECONDS)
+		if(!prev_lockcharge)
+			robot.SetLockdown(FALSE)
+		robot.set_anchored(FALSE)
+		robot.notransform = FALSE
+		robot.hasExpanded = TRUE
+		//robot.update_transform(2) // Original
+		robot.update_transform(1.5) // SKYRAT EDIT CHANGE
 
 /obj/item/borg/upgrade/expand/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
@@ -613,7 +600,7 @@
 	. = ..()
 	if(.)
 
-		var/obj/item/storage/part_replacer/bluespace/RPED = locate() in R.model.modules// BUBBER EDIT changed cyborg to the word bluespace and duplication protection
+		var/obj/item/storage/part_replacer/cyborg/RPED = locate() in R
 		if(RPED)
 			to_chat(user, span_warning("This unit is already equipped with a RPED module!"))
 			return FALSE
@@ -625,7 +612,7 @@
 /obj/item/borg/upgrade/rped/deactivate(mob/living/silicon/robot/R, user = usr)
 	. = ..()
 	if (.)
-		var/obj/item/storage/part_replacer/bluespace/RPED = locate() in R.model // BUBBER EDIT changed cyborg to the word bluespace
+		var/obj/item/storage/part_replacer/cyborg/RPED = locate() in R.model
 		if (RPED)
 			R.model.remove_module(RPED, TRUE)
 
@@ -673,7 +660,6 @@
 
 /datum/action/item_action/crew_monitor
 	name = "Interface With Crew Monitor"
-	button_icon =  "scanner"
 
 /obj/item/borg/upgrade/transform
 	name = "borg model picker (Standard)"
@@ -743,33 +729,6 @@
 	. = ..()
 	if (.)
 		var/obj/item/borg/apparatus/beaker/extra/E = locate() in R.model.modules
-		if (E)
-			R.model.remove_module(E, TRUE)
-
-/obj/item/borg/upgrade/drink_app
-	name = "glass storage apparatus"
-	desc = "A supplementary drinking glass storage apparatus for service cyborgs."
-	icon_state = "cyborg_upgrade3"
-	require_model = TRUE
-	model_type = list(/obj/item/robot_model/service)
-	model_flags = BORG_MODEL_SERVICE
-
-/obj/item/borg/upgrade/drink_app/action(mob/living/silicon/robot/R, user = usr)
-	. = ..()
-	if(.)
-		var/obj/item/borg/apparatus/beaker/drink/E = locate() in R.model.modules
-		if(E)
-			to_chat(user, span_warning("This unit has no room for additional drink storage!"))
-			return FALSE
-
-		E = new(R.model)
-		R.model.basic_modules += E
-		R.model.add_module(E, FALSE, TRUE)
-
-/obj/item/borg/upgrade/drink_app/deactivate(mob/living/silicon/robot/R, user = usr)
-	. = ..()
-	if (.)
-		var/obj/item/borg/apparatus/beaker/drink/E = locate() in R.model.modules
 		if (E)
 			R.model.remove_module(E, TRUE)
 

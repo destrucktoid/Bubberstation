@@ -844,8 +844,7 @@
 /area/ruin/syndicate_lava_base/bar)
 "hY" = (
 /obj/structure/window/reinforced/survival_pod/spawner/directional/north,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored{
-	chamber_id = "interdyneo2";
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
 	dir = 1
 	},
 /turf/open/floor/engine/o2,
@@ -1421,7 +1420,7 @@
 "nI" = (
 /obj/machinery/door/window/survival_pod{
 	dir = 8;
-	name = "Virology Airlock";
+	name = "Virology airlock";
 	req_access = list("syndicate")
 	},
 /obj/effect/turf_decal/stripes/red/full,
@@ -1460,7 +1459,7 @@
 /turf/open/floor/plating,
 /area/ruin/syndicate_lava_base/medbay)
 "oe" = (
-/obj/machinery/cryo_cell,
+/obj/machinery/atmospherics/components/unary/cryo_cell,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/medbay)
 "oi" = (
@@ -1997,8 +1996,7 @@
 /area/ruin/syndicate_lava_base/medbay)
 "ve" = (
 /obj/structure/window/reinforced/survival_pod/spawner/directional/north,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored{
-	chamber_id = "interdynen2";
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
 	dir = 1
 	},
 /turf/open/floor/engine/n2,
@@ -2274,6 +2272,10 @@
 	},
 /obj/machinery/chem_dispenser/mutagensaltpeter,
 /turf/open/floor/iron/dark/smooth_large,
+/area/ruin/syndicate_lava_base/bar)
+"xH" = (
+/obj/machinery/light/directional/east,
+/turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/bar)
 "xL" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/cyan/visible,
@@ -2762,8 +2764,7 @@
 "BS" = (
 /obj/structure/window/reinforced/survival_pod/spawner/directional/south,
 /obj/structure/window/reinforced/survival_pod/spawner/directional/west,
-/obj/machinery/atmospherics/components/unary/vent_pump/siphon/monitored{
-	chamber_id = "interdyneserver";
+/obj/machinery/atmospherics/components/unary/vent_pump/siphon/on{
 	dir = 1;
 	external_pressure_bound = 120;
 	name = "server vent"
@@ -4039,7 +4040,6 @@
 	dir = 8
 	},
 /obj/machinery/computer/security/telescreen/entertainment/directional/east,
-/obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/ruin/syndicate_lava_base/bar)
 "Oz" = (
@@ -4528,7 +4528,7 @@
 	},
 /obj/machinery/door/window/survival_pod{
 	dir = 4;
-	name = "Virology Airlock";
+	name = "Virology airlock";
 	req_access = list("syndicate")
 	},
 /obj/effect/turf_decal/stripes/red/full,
@@ -6919,7 +6919,7 @@ WW
 QQ
 wo
 Oy
-Dk
+xH
 Dk
 QN
 ej

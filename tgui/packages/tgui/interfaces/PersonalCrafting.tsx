@@ -145,7 +145,7 @@ type Data = {
   categories: string[];
   material_occurences: Material[];
   foodtypes: string[];
-  complexity: number;
+  nutriments: number;
 };
 
 export const PersonalCrafting = (props, context) => {
@@ -209,9 +209,7 @@ export const PersonalCrafting = (props, context) => {
               recipe.category === activeCategory)))
     ),
     sortBy<Recipe>((recipe) => [
-      activeCategory === 'Can Make'
-        ? 99 - Object.keys(recipe.reqs).length
-        : Number(craftability[recipe.ref]),
+      -Number(craftability[recipe.ref]),
       recipe.name.toLowerCase(),
     ]),
   ])(data.recipes);
@@ -829,14 +827,14 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }, context) => {
                   }
                 />
               )}
-              {!!item.complexity && (
+              {item.nutriments > 0 && (
                 <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
-                  Complexity: {item.complexity}
+                  Nutrition: {item.nutriments}
+                  <Divider />
                 </Box>
               )}
               {item.foodtypes?.length > 0 && (
                 <Box color={'gray'} width={'104px'} lineHeight={1.5} mt={1}>
-                  <Divider />
                   {item.foodtypes.map((foodtype) => (
                     <FoodtypeContent
                       key={item.ref}

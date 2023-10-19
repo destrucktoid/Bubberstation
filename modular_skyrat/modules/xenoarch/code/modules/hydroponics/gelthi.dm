@@ -24,5 +24,5 @@
 	filling_color = "#FF4500"
 	bite_consumption_mod = 0.5
 	foodtypes = FRUIT
-	juice_typepath = /datum/reagent/gold
+	juice_results = list(/datum/reagent/gold = 0)
 	tastes = list("gold" = 1)

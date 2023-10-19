@@ -84,6 +84,7 @@
 	average_size = 30
 	average_weight = 500
 	stable_population = 4
+	grind_results = list(/datum/reagent/blood = 20, /datum/reagent/consumable/liquidgibs = 2)
 	fish_traits = list(/datum/fish_trait/picky_eater)
 	evolution_types = list(/datum/fish_evolution/lubefish)
 	compatible_types = list(/obj/item/fish/clownfish/lube)
@@ -238,17 +239,7 @@
 	random_case_rarity = FISH_RARITY_RARE
 	fillet_type = /obj/item/food/meat/slab/rawcrab
 	required_temperature_min = MIN_AQUARIUM_TEMP+9
-	required_temperature_max = LAVALAND_MAX_TEMPERATURE+50
-	min_pressure = HAZARD_LOW_PRESSURE
-	safe_air_limits = list(
-		/datum/gas/oxygen = list(2, 100),
-		/datum/gas/nitrogen,
-		/datum/gas/carbon_dioxide = list(0, 20),
-		/datum/gas/water_vapor,
-		/datum/gas/plasma = list(0, 5),
-		/datum/gas/bz = list(0, 5),
-		/datum/gas/miasma = list(0, 5),
-	)
+	required_temperature_max = MAX_AQUARIUM_TEMP+150
 	evolution_types = list(/datum/fish_evolution/ice_chrab)
 	compatible_types = list(/obj/item/fish/chasm_crab/ice)
 
@@ -257,7 +248,7 @@
 	desc = "A subspecies of chasm chrabs that has adapted to the cold climate and lack of abysmal holes of the icemoon."
 	icon_state = "arctic_chrab"
 	dedicated_in_aquarium_icon_state = "ice_chrab_small"
-	required_temperature_min = ICEBOX_MIN_TEMPERATURE-20
+	required_temperature_min = MIN_AQUARIUM_TEMP-150
 	required_temperature_max = MIN_AQUARIUM_TEMP+15
 	evolution_types = list(/datum/fish_evolution/chasm_chrab)
 	compatible_types = list(/obj/item/fish/chasm_crab)
@@ -340,7 +331,8 @@
 	desc = "A misshapen, fragile, loosely fish-like living goop. This one has developed sexual reproduction mechanisms, and a purple tint to boot."
 	icon_state = "sludgefish_purple"
 	dedicated_in_aquarium_icon_state = "sludgefish_purple_small"
-	random_case_rarity = FISH_RARITY_NOPE
+	available_in_random_cases = FALSE
+	random_case_rarity = FISH_RARITY_VERY_RARE
 	fish_traits = list(/datum/fish_trait/parthenogenesis)
 
 /obj/item/fish/slimefish
@@ -351,7 +343,7 @@
 	dedicated_in_aquarium_icon_state = "slimefish_small"
 	sprite_width = 7
 	sprite_height = 7
-	do_flop_animation = FALSE //it already has a cute bouncy wiggle. :3
+	do_flop_animation = FALSE //it already has our cute bouncy wiggle. :3
 	random_case_rarity = FISH_RARITY_VERY_RARE
 	required_fluid_type = AQUARIUM_FLUID_ANADROMOUS
 	stable_population = 4
@@ -382,7 +374,6 @@
 	fish_ai_type = FISH_AI_ZIPPY
 	random_case_rarity = FISH_RARITY_GOOD_LUCK_FINDING_THIS
 	required_fluid_type = AQUARIUM_FLUID_ANY_WATER
-	min_pressure = HAZARD_LOW_PRESSURE
 	health = 150
 	stable_population = 3
 	grind_results = list(/datum/reagent/bone_dust = 20)
@@ -406,10 +397,10 @@
 	sprite_width = 12
 	sprite_height = 7
 	show_in_catalog = FALSE
-	random_case_rarity = FISH_RARITY_NOPE
+	available_in_random_cases = FALSE
+	random_case_rarity = FISH_RARITY_GOOD_LUCK_FINDING_THIS
 	fishing_difficulty_modifier = 5
 	required_fluid_type = AQUARIUM_FLUID_ANY_WATER
-	min_pressure = HAZARD_LOW_PRESSURE
 	health = 300
 	stable_population = 2 //This means they can only crossbreed.
 	grind_results = list(/datum/reagent/bone_dust = 15, /datum/reagent/consumable/liquidgibs = 5)
@@ -427,7 +418,7 @@
 	desc = "A holographic representation of a common goldfish, slowly flickering out, removed from its holo-habitat."
 	icon_state = "goldfish"
 	show_in_catalog = FALSE
-	random_case_rarity = FISH_RARITY_NOPE
+	available_in_random_cases = FALSE
 	sprite_width = 8
 	sprite_height = 8
 	stable_population = 1
@@ -436,23 +427,20 @@
 	required_fluid_type = AQUARIUM_FLUID_ANADROMOUS
 	grind_results = null
 	fillet_type = null
-	death_text = "%SRC gently disappears."
+	death_text = "%SRC disappears."
 	fish_traits = list(/datum/fish_trait/no_mating) //just to be sure, these shouldn't reproduce
-	experisci_scannable = FALSE
 
 /obj/item/fish/holo/Initialize(mapload)
 	. = ..()
 	var/area/station/holodeck/holo_area = get_area(src)
 	if(!istype(holo_area))
-		addtimer(CALLBACK(src, PROC_REF(set_status), FISH_DEAD), 1 MINUTES)
 		return
 	holo_area.linked.add_to_spawned(src)
 
 /obj/item/fish/holo/set_status(new_status)
 	. = ..()
 	if(status == FISH_DEAD)
-		animate(src, alpha = 0, 3 SECONDS, easing = SINE_EASING)
-		QDEL_IN(src, 3 SECONDS)
+		qdel(src)
 
 /obj/item/fish/holo/crab
 	name = "holographic crab"
@@ -466,7 +454,6 @@
 /obj/item/fish/holo/puffer
 	name = "holographic pufferfish"
 	desc ="A holographic representation of 100% safe-to-eat pufferfish... that is, if holographic fishes were even edible."
-	icon_state = "pufferfish"
 	sprite_width = 8
 	sprite_height = 8
 	average_size = 60
@@ -489,9 +476,9 @@
 	sprite_height = 5
 
 /obj/item/fish/holo/checkered
-	name = "unrendered holographic fish"
+	name = "unrendered holographic fish" //it's a meta joke, buddy.
 	desc = "A checkered silhoutte of searing purple and pitch black presents itself before your eyes, like a tear in fabric of reality. It hurts to watch."
-	icon_state = "checkered" //it's a meta joke, buddy.
+	icon_state = "checkered"
 	dedicated_in_aquarium_icon_state = "checkered_small"
 	sprite_width = 4
 
@@ -503,37 +490,3 @@
 	sprite_height = 4
 	sprite_width = 10
 	average_size = 50
-
-/obj/item/fish/starfish
-	name = "cosmostarfish"
-	desc = "A peculiar, gravity-defying, echinoderm-looking critter from hyperspace."
-	icon_state = "starfish"
-	dedicated_in_aquarium_icon_state = "starfish_small"
-	icon_state_dead = "starfish_dead"
-	sprite_width = 4
-	average_size = 30
-	average_weight = 300
-	stable_population = 3
-	required_fluid_type = AQUARIUM_FLUID_AIR
-	random_case_rarity = FISH_RARITY_NOPE
-	required_temperature_min = 0
-	required_temperature_max = INFINITY
-	safe_air_limits = null
-	min_pressure = 0
-	max_pressure = INFINITY
-	grind_results = list(/datum/reagent/bluespace = 10, /datum/reagent/consumable/liquidgibs = 5)
-	fillet_type = null
-	fish_traits = list(/datum/fish_trait/antigrav, /datum/fish_trait/mixotroph)
-
-/obj/item/fish/starfish/Initialize(mapload)
-	. = ..()
-	update_appearance(UPDATE_OVERLAYS)
-
-/obj/item/fish/starfish/update_overlays()
-	. = ..()
-	if(status == FISH_ALIVE)
-		. += emissive_appearance(icon, "starfish_emissive", src)
-
-///It spins, and dimly glows in the dark.
-/obj/item/fish/starfish/flop_animation()
-	DO_FLOATING_ANIM(src)

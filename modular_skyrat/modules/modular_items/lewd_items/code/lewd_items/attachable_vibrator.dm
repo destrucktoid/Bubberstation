@@ -24,11 +24,11 @@
 	/// Assoc list of modes, used to transfer between them
 	var/list/modes = list("low" = "medium", "medium" = "high", "high" = "off", "off" = "low")
 	/// A looping sound called on process()
-	var/datum/looping_sound/lewd/vibrator/low/soundloop1
+	var/datum/looping_sound/vibrator/low/soundloop1
 	/// A looping sound called on process()
-	var/datum/looping_sound/lewd/vibrator/medium/soundloop2
+	var/datum/looping_sound/vibrator/medium/soundloop2
 	/// A looping sound called on process()
-	var/datum/looping_sound/lewd/vibrator/high/soundloop3
+	var/datum/looping_sound/vibrator/high/soundloop3
 	/// The sprites used in the radial menu when selecting a toy color
 	var/static/list/vib_designs
 	w_class = WEIGHT_CLASS_TINY
@@ -96,19 +96,19 @@
 	switch(vibration_mode)
 		if("low")
 			toy_on = TRUE
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)
 			soundloop1.start()
 		if("medium")
 			toy_on = TRUE
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)
 			soundloop2.start()
 		if("high")
 			toy_on = TRUE
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)
 			soundloop3.start()
 		if("off")
 			toy_on = FALSE
-			play_lewd_sound(loc, 'sound/weapons/magout.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magout.ogg', 20, TRUE, ignore_walls = FALSE)
 
 /obj/item/clothing/sextoy/eggvib/lewd_equipped(mob/living/carbon/human/user, slot, initial)
 	. = ..()
@@ -327,10 +327,10 @@
 	switch(vibration_mode)
 		if("low")
 			vibration_mode = "low"
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)
 		if("medium")
 			vibration_mode = "medium"
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)
 		if("high")
 			vibration_mode = "high"
-			play_lewd_sound(loc, 'sound/weapons/magin.ogg', 20, TRUE)
+			playsound(loc, 'sound/weapons/magin.ogg', 20, TRUE, ignore_walls = FALSE)

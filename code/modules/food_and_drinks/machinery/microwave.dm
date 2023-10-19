@@ -148,10 +148,11 @@
 	for (var/atom/movable/ingredient as anything in ingredients)
 		var/image/ingredient_overlay = image(ingredient, src)
 
-		var/list/icon_dimensions = get_icon_dimensions(ingredient.icon)
+		var/icon/ingredient_icon = icon(ingredient.icon, ingredient.icon_state)
+
 		ingredient_overlay.transform = ingredient_overlay.transform.Scale(
-			MICROWAVE_INGREDIENT_OVERLAY_SIZE / icon_dimensions["width"],
-			MICROWAVE_INGREDIENT_OVERLAY_SIZE / icon_dimensions["height"],
+			MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Width(),
+			MICROWAVE_INGREDIENT_OVERLAY_SIZE / ingredient_icon.Height(),
 		)
 
 		ingredient_overlay.pixel_y = -4
@@ -288,16 +289,9 @@
 		balloon_alert(user, "it's too dirty!")
 		return TRUE
 
-	if(istype(O, /obj/item/storage))
+	if(istype(O, /obj/item/storage/bag/tray))
 		var/obj/item/storage/T = O
 		var/loaded = 0
-
-		if(!istype(O, /obj/item/storage/bag/tray))
-			// Non-tray dumping requires a do_after
-			to_chat(user, span_notice("You start dumping out the contents of [O] into [src]..."))
-			if(!do_after(user, 2 SECONDS, target = T))
-				return
-
 		for(var/obj/S in T.contents)
 			if(!IS_EDIBLE(S))
 				continue

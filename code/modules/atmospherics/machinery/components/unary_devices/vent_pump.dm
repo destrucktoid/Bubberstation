@@ -53,14 +53,17 @@
 	. += span_notice("You can link it with an air sensor using a multitool.")
 
 /obj/machinery/atmospherics/components/unary/vent_pump/multitool_act(mob/living/user, obj/item/multitool/multi_tool)
+	. = ..()
+
 	if(istype(multi_tool.buffer, /obj/machinery/air_sensor))
 		var/obj/machinery/air_sensor/sensor = multi_tool.buffer
-		multi_tool.set_buffer(src)
-		sensor.multitool_act(user, multi_tool)
+		sensor.outlet_id = id_tag
+		multi_tool.buffer = null
+		balloon_alert(user, "output linked to sensor")
 		return TOOL_ACT_TOOLTYPE_SUCCESS
 
-	balloon_alert(user, "vent saved in buffer")
-	multi_tool.set_buffer(src)
+	balloon_alert(user, "saved in buffer")
+	multi_tool.buffer = src
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
 /obj/machinery/atmospherics/components/unary/vent_pump/Destroy()
@@ -168,8 +171,6 @@
 
 		if(pressure_delta > 0)
 			if(air_contents.temperature > 0)
-				if(environment_pressure >= 50 * ONE_ATMOSPHERE)
-					return FALSE
 				var/transfer_moles = (pressure_delta * environment.volume) / (air_contents.temperature * R_IDEAL_GAS_EQUATION)
 				var/datum/gas_mixture/removed = air_contents.remove(transfer_moles)
 
@@ -187,8 +188,6 @@
 			pressure_delta = min(pressure_delta, (internal_pressure_bound - air_contents.return_pressure()))
 
 		if(pressure_delta > 0 && environment.temperature > 0)
-			if(air_contents.return_pressure() >= 50 * ONE_ATMOSPHERE)
-				return FALSE
 			var/transfer_moles = (pressure_delta * air_contents.volume) / (environment.temperature * R_IDEAL_GAS_EQUATION)
 
 			var/datum/gas_mixture/removed = loc.remove_air(transfer_moles)

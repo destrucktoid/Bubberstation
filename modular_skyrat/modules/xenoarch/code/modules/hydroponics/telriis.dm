@@ -25,5 +25,5 @@
 	filling_color = "#FF4500"
 	bite_consumption_mod = 0.5
 	foodtypes = FRUIT
-	juice_typepath = /datum/reagent/medicine/higadrite
+	juice_results = list(/datum/reagent/medicine/higadrite = 0)
 	tastes = list("liver" = 1)

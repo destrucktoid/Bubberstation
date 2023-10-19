@@ -86,7 +86,7 @@
 
 	return ..(mid_sounds[get_perceived_radiation_danger(last_radiation_pulse, last_insulation_to_target)])
 
-/datum/looping_sound/geiger/stop(null_parent = FALSE)
+/datum/looping_sound/geiger/stop()
 	. = ..()
 
 	last_radiation_pulse = null

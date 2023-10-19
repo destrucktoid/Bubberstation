@@ -5,31 +5,47 @@
 // Mining PPE, SEVAs and hardhats, have you passed your OSHA inspection today?
 
 /datum/armament_entry/company_import/kahraman/ppe
-	subcategory = "FOHSA Certified Protective Equipment"
+	subcategory = "OSHA Certified Protective Equipment"
+
+/datum/armament_entry/company_import/kahraman/ppe/hardhat
+	item_type = /obj/item/clothing/head/utility/hardhat/orange
+	lower_cost = CARGO_CRATE_VALUE * 0.25
+	upper_cost = CARGO_CRATE_VALUE
 
 /datum/armament_entry/company_import/kahraman/ppe/weldhat
 	item_type = /obj/item/clothing/head/utility/hardhat/welding/orange
-	cost = PAYCHECK_CREW * 1.5
+	lower_cost = CARGO_CRATE_VALUE * 0.75
+	upper_cost = CARGO_CRATE_VALUE * 1.25
 
 /datum/armament_entry/company_import/kahraman/ppe/gasmask
 	item_type = /obj/item/clothing/mask/gas/alt
-	cost = PAYCHECK_LOWER
+	lower_cost = CARGO_CRATE_VALUE * 0.1
+	upper_cost = CARGO_CRATE_VALUE * 0.3
 
 /datum/armament_entry/company_import/kahraman/ppe/hazard_vest
 	item_type = /obj/item/clothing/suit/hazardvest
-	cost = PAYCHECK_CREW
+	lower_cost = CARGO_CRATE_VALUE * 0.3
+	upper_cost = CARGO_CRATE_VALUE * 0.6
 
 /datum/armament_entry/company_import/kahraman/ppe/seva_mask
 	item_type = /obj/item/clothing/mask/gas/seva
-	cost = PAYCHECK_CREW * 1.5
+	lower_cost = CARGO_CRATE_VALUE * 0.5
+	upper_cost = CARGO_CRATE_VALUE
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/ppe/seva_suit
 	item_type = /obj/item/clothing/suit/hooded/seva
-	cost = PAYCHECK_COMMAND * 2
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 2
+	interest_required = COMPANY_SOME_INTEREST
+	interest_addition = COMPANY_INTEREST_GAIN_AVERAGE
 
 /datum/armament_entry/company_import/kahraman/ppe/sensors_cuffs
 	item_type = /obj/item/kheiral_cuffs
-	cost = PAYCHECK_COMMAND * 5
+	lower_cost = CARGO_CRATE_VALUE * 1.5
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST
+	interest_addition = COMPANY_INTEREST_GAIN_BIG
 
 // Hand held mining equipment
 
@@ -38,74 +54,99 @@
 
 /datum/armament_entry/company_import/kahraman/mining_tool/drill
 	item_type = /obj/item/pickaxe/drill
-	cost = PAYCHECK_COMMAND
+	lower_cost = CARGO_CRATE_VALUE * 0.75
+	upper_cost = CARGO_CRATE_VALUE * 1.5
 
 /datum/armament_entry/company_import/kahraman/mining_tool/resonator
 	item_type = /obj/item/resonator
-	cost = PAYCHECK_COMMAND
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 2
 
 /datum/armament_entry/company_import/kahraman/mining_tool/pka
 	item_type = /obj/item/gun/energy/recharge/kinetic_accelerator
-	cost = PAYCHECK_COMMAND
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 2
 
 /datum/armament_entry/company_import/kahraman/mining_tool/cutter
 	item_type = /obj/item/gun/energy/plasmacutter
-	cost = PAYCHECK_COMMAND
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 2
 
 /datum/armament_entry/company_import/kahraman/mining_tool/diamond_drill
 	item_type = /obj/item/pickaxe/drill/diamonddrill
-	cost = PAYCHECK_COMMAND * 2
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 2
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/mining_tool/advanced_cutter
 	item_type = /obj/item/gun/energy/plasmacutter/adv
-	cost = PAYCHECK_COMMAND * 4
+	lower_cost = CARGO_CRATE_VALUE * 1.5
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/mining_tool/super_resonator
 	item_type = /obj/item/resonator/upgraded
-	cost = PAYCHECK_COMMAND * 4
+	lower_cost = CARGO_CRATE_VALUE * 1.5
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/mining_tool/jackhammer
 	item_type = /obj/item/pickaxe/drill/jackhammer
-	cost = PAYCHECK_COMMAND * 3
+	lower_cost = CARGO_CRATE_VALUE * 1.5
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/sensing
 	subcategory = "Sensing Equipment"
 
 /datum/armament_entry/company_import/kahraman/sensing/mesons
 	item_type = /obj/item/clothing/glasses/meson
-	cost = PAYCHECK_CREW
+	lower_cost = CARGO_CRATE_VALUE * 0.2
+	upper_cost = CARGO_CRATE_VALUE * 0.5
 
 /datum/armament_entry/company_import/kahraman/sensing/autoscanner
 	item_type = /obj/item/t_scanner/adv_mining_scanner/lesser
-	cost = PAYCHECK_LOWER
+	lower_cost = CARGO_CRATE_VALUE * 0.4
+	upper_cost = CARGO_CRATE_VALUE
 
 /datum/armament_entry/company_import/kahraman/sensing/super_autoscanner
 	item_type = /obj/item/t_scanner/adv_mining_scanner
-	cost = PAYCHECK_COMMAND * 3
+	lower_cost = CARGO_CRATE_VALUE * 0.7
+	upper_cost = CARGO_CRATE_VALUE * 1.3
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/sensing/nvg_mesons
 	item_type = /obj/item/clothing/glasses/meson/night
-	cost = PAYCHECK_COMMAND * 3
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 1.5
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/mecha_tools
 	subcategory = "Heavy Powered Mining Equipment"
 
 /datum/armament_entry/company_import/kahraman/mecha_tools/scanner
 	item_type = /obj/item/mecha_parts/mecha_equipment/mining_scanner
-	cost = PAYCHECK_CREW
+	lower_cost = CARGO_CRATE_VALUE * 0.5
+	upper_cost = CARGO_CRATE_VALUE
 
 /datum/armament_entry/company_import/kahraman/mecha_tools/drill
 	item_type = /obj/item/mecha_parts/mecha_equipment/drill
-	cost = PAYCHECK_CREW
+	lower_cost = CARGO_CRATE_VALUE
+	upper_cost = CARGO_CRATE_VALUE * 1.5
 
 /datum/armament_entry/company_import/kahraman/mecha_tools/pka
 	item_type = /obj/item/mecha_parts/mecha_equipment/weapon/energy/mecha_kineticgun
-	cost = PAYCHECK_CREW * 3
+	lower_cost = CARGO_CRATE_VALUE * 1.25
+	upper_cost = CARGO_CRATE_VALUE * 2.5
 
 /datum/armament_entry/company_import/kahraman/mecha_tools/diamond_drill
 	item_type = /obj/item/mecha_parts/mecha_equipment/drill/diamonddrill
-	cost = PAYCHECK_CREW * 3
+	lower_cost = CARGO_CRATE_VALUE * 2
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST
 
 /datum/armament_entry/company_import/kahraman/mecha_tools/cutter
 	item_type = /obj/item/mecha_parts/mecha_equipment/weapon/energy/plasma
-	cost = PAYCHECK_CREW * 3
+	lower_cost = CARGO_CRATE_VALUE * 2
+	upper_cost = CARGO_CRATE_VALUE * 3
+	interest_required = COMPANY_SOME_INTEREST

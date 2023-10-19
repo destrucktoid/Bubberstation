@@ -280,10 +280,6 @@
 /obj/effect/turf_decal/tile/dark_blue/diagonal_centre,
 /turf/open/floor/iron/white/diagonal,
 /area/shuttle/hunter)
-"mc" = (
-/obj/machinery/fugitive_locator,
-/turf/open/floor/iron/kitchen/small,
-/area/shuttle/hunter)
 "mz" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/structure/etherealball,
@@ -1222,7 +1218,7 @@ oL
 CW
 zY
 xF
-mc
+lu
 PC
 XX
 CW

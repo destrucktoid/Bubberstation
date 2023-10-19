@@ -19,7 +19,6 @@
 	base_message_chance = 100
 	symptom_delay_min = 25
 	symptom_delay_max = 80
-	required_organ = ORGAN_SLOT_EARS
 	threshold_descs = list(
 		"Resistance 9" = "Causes permanent deafness, instead of intermittent.",
 		"Stealth 4" = "The symptom remains hidden until active.",
@@ -39,15 +38,15 @@
 	REMOVE_TRAIT(advanced_disease.affected_mob, TRAIT_DEAF, DISEASE_TRAIT)
 	return ..()
 
-/datum/symptom/deafness/Activate(datum/disease/advance/advanced_disease)
+/datum/symptom/deafness/Activate(datum/disease/advance/A)
 	. = ..()
 	if(!.)
 		return
-
-	var/mob/living/carbon/infected_mob = advanced_disease.affected_mob
+	var/mob/living/carbon/infected_mob = A.affected_mob
 	var/obj/item/organ/internal/ears/ears = infected_mob.get_organ_slot(ORGAN_SLOT_EARS)
-
-	switch(advanced_disease.stage)
+	if(!ears)
+		return //cutting off your ears to cure the deafness: the ultimate own
+	switch(A.stage)
 		if(3, 4)
 			if(prob(base_message_chance) && !suppress_warning)
 				to_chat(infected_mob, span_warning("[pick("You hear a ringing in your ear.", "Your ears pop.")]"))

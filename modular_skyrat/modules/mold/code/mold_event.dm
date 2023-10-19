@@ -50,9 +50,6 @@
 			continue
 
 		for(var/turf/open/floor in checked_area.get_contained_turfs())
-			if(isopenspaceturf(floor))
-				continue
-
 			if(!floor.Enter(test_resin))
 				continue
 

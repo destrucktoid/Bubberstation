@@ -13,7 +13,7 @@
 	var/pod_called = FALSE
 	/// How much TC do we get from sending the target alive
 	var/alive_bonus = 0
-	/// All stripped targets belongings (weakrefs)
+	/// All stripped targets belongings
 	var/list/target_belongings = list()
 
 	duplicate_type = /datum/traitor_objective/target_player
@@ -157,7 +157,7 @@
 		return FALSE
 
 	var/datum/mind/target_mind = pick(possible_targets)
-	set_target(target_mind.current)
+	target = target_mind.current
 	AddComponent(/datum/component/traitor_objective_register, target, fail_signals = list(COMSIG_QDELETING))
 	var/list/possible_areas = GLOB.the_station_areas.Copy()
 	for(var/area/possible_area as anything in possible_areas)
@@ -172,7 +172,7 @@
 	return TRUE
 
 /datum/traitor_objective/target_player/kidnapping/ungenerate_objective()
-	set_target(null)
+	target = null
 	dropoff_area = null
 
 /datum/traitor_objective/target_player/kidnapping/on_objective_taken(mob/user)
@@ -234,7 +234,7 @@
 		var/unequipped = sent_mob.transferItemToLoc(belonging)
 		if (!unequipped)
 			continue
-		target_belongings.Add(WEAKREF(belonging))
+		target_belongings.Add(belonging)
 
 	var/datum/bank_account/cargo_account = SSeconomy.get_dep_account(ACCOUNT_CAR)
 
@@ -303,10 +303,7 @@
 			continue
 		sent_mob.dropItemToGround(belonging) // No souvenirs, except shoes and t-shirts
 
-	for(var/datum/weakref/belonging_ref in target_belongings)
-		var/obj/item/belonging = belonging_ref.resolve()
-		if(!belonging)
-			continue
+	for(var/obj/item/belonging in target_belongings)
 		belonging.forceMove(return_pod)
 
 	sent_mob.forceMove(return_pod)

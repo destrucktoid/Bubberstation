@@ -8,29 +8,27 @@
 	/// List of refs to falling objects -> how many levels deep we've fallen
 	var/static/list/falling_atoms = list()
 	var/static/list/forbidden_types = typecacheof(list(
-		/obj/docking_port,
-		/obj/effect/abstract,
-		/obj/effect/collapse,
-		/obj/effect/constructing_effect,
-		/obj/effect/dummy/phased_mob,
-		/obj/effect/ebeam,
-		/obj/effect/fishing_lure,
-		/obj/effect/hotspot,
-		/obj/effect/landmark,
-		/obj/effect/light_emitter/tendril,
-		/obj/effect/mapping_helpers,
-		/obj/effect/particle_effect/ion_trails,
-		/obj/effect/portal,
-		/obj/effect/projectile,
-		/obj/effect/spectre_of_resurrection,
-		/obj/effect/temp_visual,
-		/obj/effect/wisp,
+		/obj/singularity,
 		/obj/energy_ball,
 		/obj/narsie,
-		/obj/projectile,
-		/obj/singularity,
+		/obj/docking_port,
 		/obj/structure/lattice,
 		/obj/structure/stone_tile,
+		/obj/projectile,
+		/obj/effect/projectile,
+		/obj/effect/portal,
+		/obj/effect/abstract,
+		/obj/effect/hotspot,
+		/obj/effect/landmark,
+		/obj/effect/temp_visual,
+		/obj/effect/light_emitter/tendril,
+		/obj/effect/collapse,
+		/obj/effect/particle_effect/ion_trails,
+		/obj/effect/dummy/phased_mob,
+		/obj/effect/mapping_helpers,
+		/obj/effect/wisp,
+		/obj/effect/ebeam,
+		/obj/effect/fishing_lure,
 	))
 
 /datum/component/chasm/Initialize(turf/target, mapload)
@@ -46,7 +44,7 @@
 	//otherwise don't do anything because turfs and areas are initialized before movables.
 	if(!mapload)
 		addtimer(CALLBACK(src, PROC_REF(drop_stuff)), 0)
-	parent.AddElement(/datum/element/lazy_fishing_spot, /datum/fish_source/chasm)
+	parent.AddElement(/datum/element/lazy_fishing_spot, FISHING_SPOT_PRESET_CHASM)
 
 /datum/component/chasm/UnregisterFromParent()
 	storage = null
@@ -159,7 +157,7 @@
 	dropped_thing.visible_message(span_boldwarning("[dropped_thing] falls into [parent]!"), span_userdanger("[oblivion_message]"))
 	if (isliving(dropped_thing))
 		var/mob/living/falling_mob = dropped_thing
-		ADD_TRAIT(falling_mob, TRAIT_NO_TRANSFORM, REF(src))
+		falling_mob.notransform = TRUE
 		falling_mob.Paralyze(20 SECONDS)
 
 	var/oldtransform = dropped_thing.transform
@@ -200,7 +198,7 @@
 
 	else if(isliving(dropped_thing))
 		var/mob/living/fallen_mob = dropped_thing
-		REMOVE_TRAIT(fallen_mob, TRAIT_NO_TRANSFORM, REF(src))
+		fallen_mob.notransform = FALSE
 		if (fallen_mob.stat != DEAD)
 			fallen_mob.investigate_log("has died from falling into a chasm.", INVESTIGATE_DEATHS)
 			fallen_mob.death(TRUE)
@@ -237,13 +235,13 @@ GLOBAL_LIST_EMPTY(chasm_fallen_mobs)
 
 /obj/effect/abstract/chasm_storage/Entered(atom/movable/arrived)
 	. = ..()
-	if(isliving(arrived))
+	if (isliving(arrived))
 		RegisterSignal(arrived, COMSIG_LIVING_REVIVE, PROC_REF(on_revive))
 		GLOB.chasm_fallen_mobs += arrived
 
 /obj/effect/abstract/chasm_storage/Exited(atom/movable/gone)
 	. = ..()
-	if(isliving(gone))
+	if (isliving(gone))
 		UnregisterSignal(gone, COMSIG_LIVING_REVIVE)
 		GLOB.chasm_fallen_mobs -= gone
 

@@ -22,7 +22,7 @@
 
 /obj/item/card/id/advanced/colourable/Initialize(mapload)
 	. = ..()
-	AddElement(/datum/element/gags_recolorable)
+	AddComponent(/datum/component/gags_recolorable)
 
 /obj/item/card/id/advanced/colourable/examine(mob/user)
 	. = ..()

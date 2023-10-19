@@ -55,8 +55,7 @@
 
 /// Handles interrupting research
 /obj/machinery/shuttle_scrambler/proc/interrupt_research()
-	var/datum/techweb/science_web = locate(/datum/techweb/science) in SSresearch.techwebs
-	for(var/obj/machinery/rnd/server/research_server as anything in science_web.techweb_servers)
+	for(var/obj/machinery/rnd/server/research_server as anything in SSresearch.science_tech.techweb_servers)
 		if(research_server.machine_stat & (NOPOWER|BROKEN|EMPED))
 			continue
 		research_server.emp_act(EMP_LIGHT)
@@ -124,20 +123,32 @@
 	icon = 'icons/obj/machines/research.dmi'
 	icon_state = "tdoppler"
 	density = TRUE
-	/// Cooldown on locating booty.
-	COOLDOWN_DECLARE(locate_cooldown)
+	var/cooldown = 300
+	var/next_use = 0
+
+/// Surgery disk for the space IRS (I don't know where to dump them anywhere else)
+/obj/item/disk/surgery/irs
+	name = "Advanced Surgery Disk"
+	desc = "A disk that contains advanced surgery procedures, must be loaded into an Operating Console."
+	surgeries = list(
+		/datum/surgery/advanced/lobotomy,
+		/datum/surgery/advanced/bioware/vein_threading,
+		/datum/surgery/advanced/bioware/nerve_splicing,
+		/datum/surgery_step/heal/combo/upgraded,
+		/datum/surgery_step/pacify,
+		/datum/surgery_step/revive,
+	)
 
 /obj/machinery/loot_locator/interact(mob/user)
-	if(!COOLDOWN_FINISHED(src, locate_cooldown))
-		balloon_alert_to_viewers("locator recharging!", vision_distance = 3)
+	if(world.time <= next_use)
+		to_chat(user,span_warning("[src] is recharging."))
 		return
+	next_use = world.time + cooldown
 	var/atom/movable/found_loot = find_random_loot()
 	if(!found_loot)
 		say("No valuables located. Try again later.")
 	else
 		say("Located: [found_loot.name] at [get_area_name(found_loot)]")
-
-	COOLDOWN_START(src, locate_cooldown, 10 SECONDS)
 
 /// Looks across the station for items that are pirate specific exports
 /obj/machinery/loot_locator/proc/find_random_loot()
@@ -152,19 +163,6 @@
 		selected_export = pick_n_take(possible_loot)
 		found_loot = selected_export.find_loot()
 	return found_loot
-
-/// Surgery disk for the space IRS (I don't know where to dump them anywhere else)
-/obj/item/disk/surgery/irs
-	name = "Advanced Surgery Disk"
-	desc = "A disk that contains advanced surgery procedures, must be loaded into an Operating Console."
-	surgeries = list(
-		/datum/surgery/advanced/lobotomy,
-		/datum/surgery/advanced/bioware/vein_threading,
-		/datum/surgery/advanced/bioware/nerve_splicing,
-		/datum/surgery_step/heal/combo/upgraded,
-		/datum/surgery_step/pacify,
-		/datum/surgery_step/revive,
-	)
 
 //Pad & Pad Terminal
 /obj/machinery/piratepad
@@ -183,8 +181,8 @@
 /obj/machinery/piratepad/multitool_act(mob/living/user, obj/item/multitool/I)
 	. = ..()
 	if (istype(I))
-		I.set_buffer(src)
-		balloon_alert(user, "saved to multitool buffer")
+		to_chat(user, span_notice("You register [src] in [I]s buffer."))
+		I.buffer = src
 		return TRUE
 
 /obj/machinery/piratepad/screwdriver_act_secondary(mob/living/user, obj/item/screwdriver/screw)

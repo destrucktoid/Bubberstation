@@ -8,7 +8,6 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 6)
 	tastes = list("dough" = 1)
 	foodtypes = GRAIN
-	crafting_complexity = FOOD_COMPLEXITY_0
 
 /obj/item/food/dough/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/bread/plain, rand(30 SECONDS, 45 SECONDS), TRUE, TRUE)
@@ -25,7 +24,6 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 6)
 	tastes = list("dough" = 1)
 	foodtypes = GRAIN
-	crafting_complexity = FOOD_COMPLEXITY_0
 
 /obj/item/food/flatdough/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/pizzabread, rand(30 SECONDS, 45 SECONDS), TRUE, TRUE)
@@ -42,7 +40,7 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 7)
 	tastes = list("bread" = 1)
 	foodtypes = GRAIN
-	crafting_complexity = FOOD_COMPLEXITY_1
+	burns_in_oven = TRUE
 
 /obj/item/food/pizzabread/Initialize(mapload)
 	. = ..()
@@ -57,7 +55,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	tastes = list("dough" = 1)
 	foodtypes = GRAIN
-	crafting_complexity = FOOD_COMPLEXITY_0
 
 /obj/item/food/doughslice/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/bun, rand(20 SECONDS, 25 SECONDS), TRUE, TRUE)
@@ -74,7 +71,7 @@
 	w_class = WEIGHT_CLASS_SMALL
 	tastes = list("bun" = 1) // the bun tastes of bun.
 	foodtypes = GRAIN
-	crafting_complexity = FOOD_COMPLEXITY_1
+	burns_in_oven = TRUE
 
 /obj/item/food/bun/Initialize(mapload)
 	. = ..()
@@ -88,7 +85,6 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 9)
 	tastes = list("batter" = 1)
 	foodtypes = GRAIN | DAIRY
-	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/cakebatter/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/cake/plain, rand(70 SECONDS, 90 SECONDS), TRUE, TRUE)
@@ -104,7 +100,6 @@
 	food_reagents = list(/datum/reagent/consumable/nutriment = 9)
 	tastes = list("dough" = 1)
 	foodtypes = GRAIN | DAIRY
-	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/piedough/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/pie/plain, rand(30 SECONDS, 45 SECONDS), TRUE, TRUE)
@@ -121,7 +116,6 @@
 	w_class = WEIGHT_CLASS_SMALL
 	tastes = list("raw pastry" = 1)
 	foodtypes = GRAIN | DAIRY
-	crafting_complexity = FOOD_COMPLEXITY_1
 
 /obj/item/food/rawpastrybase/make_bakeable()
 	AddComponent(/datum/component/bakeable, /obj/item/food/pastrybase, rand(20 SECONDS, 25 SECONDS), TRUE, TRUE)
@@ -135,4 +129,4 @@
 	w_class = WEIGHT_CLASS_SMALL
 	tastes = list("pastry" = 1)
 	foodtypes = GRAIN | DAIRY
-	crafting_complexity = FOOD_COMPLEXITY_2
+	burns_in_oven = TRUE

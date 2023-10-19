@@ -51,12 +51,14 @@
 	id_trim = /datum/id_trim/job/head_of_security
 	uniform = /obj/item/clothing/under/rank/security/head_of_security
 	suit = /obj/item/clothing/suit/armor/hos/trenchcoat
-	suit_store = /obj/item/gun/energy/e_gun
+	suit_store = /obj/item/gun/energy/e_gun //KEPLER EDIT RESTORATION
 	backpack_contents = list(
 		/obj/item/evidencebag = 1,
-		/obj/item/choice_beacon/head_of_security = 1, // BUBBER EDIT ADDITION
+		/obj/item/flashlight/seclite = 1,
+		/obj/item/modular_computer/pda/heads/hos = 1,
+		/obj/item/choice_beacon/head_of_security = 1,
 		)
-	belt = /obj/item/modular_computer/pda/heads/hos
+	belt = /obj/item/storage/belt/security/full
 	ears = /obj/item/radio/headset/heads/hos/alt
 	glasses = /obj/item/clothing/glasses/hud/security/sunglasses
 	gloves = /obj/item/clothing/gloves/color/black/security //SKYRAT EDIT CHANGE - Original: /obj/item/clothing/gloves/color/black
@@ -68,7 +70,6 @@
 	backpack = /obj/item/storage/backpack/security
 	satchel = /obj/item/storage/backpack/satchel/sec
 	duffelbag = /obj/item/storage/backpack/duffelbag/sec
-	messenger = /obj/item/storage/backpack/messenger/sec
 
 	box = /obj/item/storage/box/survival/security
 	chameleon_extras = list(
@@ -87,7 +88,7 @@
 	mask = /obj/item/clothing/mask/gas/sechailer
 	internals_slot = ITEM_SLOT_SUITSTORE
 
-//BUBBER EDIT ADDITION BEGIN
+//TEST THIS OUT WHEN NEEDED
 
 /obj/item/choice_beacon/head_of_security
 	name = "gun choice beacon"
@@ -108,6 +109,7 @@
 	name = "Classic 3-round burst pistol 9mm"
 
 /obj/item/storage/box/hosgun/PopulateContents()
+	new /obj/item/storage/box/gunset/glock18_hos(src)
 	new /obj/item/ammo_box/c9mm(src)
 	new /obj/item/ammo_box/c9mm(src)
 	new /obj/item/storage/box/hecu_rations(src)
@@ -122,13 +124,16 @@
 	new /obj/item/clothing/under/rank/security/head_of_security/redsec(src)
 	new /obj/item/clothing/glasses/hud/security/sunglasses/eyepatch/redsec(src)
 	new /obj/item/clothing/shoes/jackboots/sec/redsec(src)
+	new /obj/item/storage/box/nri_rations(src)
 	new /obj/item/knife/combat(src)
 
 /obj/item/storage/box/hosgun/glock
 	name = "Solaris Police Dual 9mm Pistol"
 
 /obj/item/storage/box/hosgun/glock/PopulateContents()
+	new /obj/item/storage/box/gunset/glock17(src)
+	new /obj/item/storage/box/gunset/glock17(src)
 	new /obj/item/clothing/under/rank/security/head_of_security/peacekeeper/sol(src)
 	new /obj/item/clothing/neck/tie/red(src)
 	new /obj/item/storage/pill_bottle/probital(src)
-// BUBBER EDIT ADDITION END
+

@@ -140,7 +140,7 @@
 	if(!lit)
 		to_chat(user, span_danger("[src] needs to be lit to produce wax!"))
 		return
-	if(!attacked.check_erp_prefs(/datum/preference/toggle/erp/sex_toy, user, src))
+	if(!attacked.client?.prefs?.read_preference(/datum/preference/toggle/erp/sex_toy))
 		to_chat(user, span_danger("It looks like [attacked] don't want you to do that."))
 		return
 	switch(user.zone_selected) //to let code know what part of body we gonna wax
@@ -196,8 +196,8 @@
 		if(prob(50))
 			attacked.try_lewd_autoemote(pick("twitch_s" , "gasp", "shiver"))
 	user.visible_message(span_purple("[user] [message]!"))
-	play_lewd_sound(loc, pick('modular_skyrat/modules/modular_items/lewd_items/sounds/vax1.ogg',
-						'modular_skyrat/modules/modular_items/lewd_items/sounds/vax2.ogg'), 70, TRUE)
+	playsound(loc, pick('modular_skyrat/modules/modular_items/lewd_items/sounds/vax1.ogg',
+						'modular_skyrat/modules/modular_items/lewd_items/sounds/vax2.ogg'), 70, TRUE, ignore_walls = FALSE)
 
 #undef CANDLE_LUMINOSITY
 #undef PAIN_DEFAULT

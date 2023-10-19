@@ -29,10 +29,7 @@
 
 	gloves = /obj/item/clothing/gloves/tackler/combat/insulated
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh)
 
 /datum/outfit/centcom/naval/lieutenant
 	name = "Nanotrasen Naval Command - Lieutenant"
@@ -47,10 +44,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh)
 
 /datum/outfit/centcom/naval/lieutenant_commander
 	name = "Nanotrasen Naval Command - Lieutenant Commander"
@@ -67,10 +61,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh)
 
 /datum/outfit/centcom/naval/commander
 	name = "Nanotrasen Naval Command - Commander"
@@ -87,10 +78,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh)
 
 /datum/outfit/centcom/naval/captain
 	name = "Nanotrasen Naval Command - Captain"
@@ -107,10 +95,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh)
 
 /datum/outfit/centcom/naval/rear_admiral
 	name = "Nanotrasen Naval Command - Rear Admiral"
@@ -123,10 +108,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh_captain)
 
 /datum/outfit/centcom/naval/admiral
 	name = "Nanotrasen Naval Command - Admiral"
@@ -141,10 +123,7 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh_captain)
 
 /datum/outfit/centcom/naval/fleet_admiral
 	name = "Nanotrasen Naval Command - Fleet Admiral"
@@ -159,7 +138,4 @@
 
 	gloves = /obj/item/clothing/gloves/combat/naval/fleet_admiral
 
-	backpack_contents = list(
-		/obj/item/storage/box/survival/security,
-		/obj/item/storage/toolbox/guncase/skyrat/pistol/trappiste_small_case/skild,
-	)
+	backpack_contents = list(/obj/item/storage/box/survival/security, /obj/item/storage/box/gunset/pdh_corpo)

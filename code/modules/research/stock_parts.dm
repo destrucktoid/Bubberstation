@@ -1,7 +1,7 @@
 /*Power cells are in code\modules\power\cell.dm
 
 If you create T5+ please take a pass at mech_fabricator.dm. The parts being good enough allows it to go into minus values and create materials out of thin air when printing stuff.*/
-/obj/item/storage/part_replacer
+/obj/item/storage/part_replacer//SKYRAT EDIT - ICON OVERRIDEN BY AESTHETICS - SEE MODULE
 	name = "rapid part exchange device"
 	desc = "Special mechanical module made to store, sort, and apply standard machine parts."
 	icon_state = "RPED"
@@ -26,7 +26,8 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	if(!works_from_distance && !user.Adjacent(attacked_object))
 		return
 
-	return part_replace_action(attacked_object, user)
+	part_replace_action(attacked_object, user)
+	return TRUE
 
 /obj/item/storage/part_replacer/proc/part_replace_action(obj/attacked_object, mob/living/user)
 	if(!ismachinery(attacked_object) && !istype(attacked_object, /obj/structure/frame/machine) && !istype(attacked_object, /obj/structure/frame/computer))
@@ -38,9 +39,9 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 		if(!attacked_machinery.component_parts)
 			return FALSE
 
-		attacked_machinery.exchange_parts(user, src)
 		if(works_from_distance)
 			user.Beam(attacked_machinery, icon_state = "rped_upgrade", time = 5)
+			attacked_machinery.exchange_parts(user, src)
 		return TRUE
 
 	var/obj/structure/frame/attacked_frame = attacked_object
@@ -55,6 +56,7 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	attacked_frame.attackby(src, user)
 	if(works_from_distance)
 		user.Beam(attacked_frame, icon_state = "rped_upgrade", time = 5)
+
 	return TRUE
 
 /obj/item/storage/part_replacer/afterattack(obj/attacked_object, mob/living/user, adjacent, params)
@@ -64,12 +66,12 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 
 /obj/item/storage/part_replacer/proc/play_rped_sound()
 	//Plays the sound for RPED exhanging or installing parts.
-	if(alt_sound && prob(1))
+	if(alt_sound && prob(0.01))
 		playsound(src, alt_sound, 40, TRUE)
 	else
 		playsound(src, pshoom_or_beepboopblorpzingshadashwoosh, 40, TRUE)
 
-/obj/item/storage/part_replacer/bluespace
+/obj/item/storage/part_replacer/bluespace//SKYRAT EDIT - ICON OVERRIDEN BY AESTHETICS - SEE MODULE
 	name = "bluespace rapid part exchange device"
 	desc = "A version of the RPED that allows for replacement of parts and scanning from a distance, along with higher capacity for parts."
 	icon_state = "BS_RPED"
@@ -100,20 +102,22 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
  */
 /obj/item/storage/part_replacer/bluespace/proc/on_part_entered(datum/source, obj/item/inserted_component)
 	SIGNAL_HANDLER
-
-	if(istype(inserted_component, /obj/item/stock_parts/cell))
-		var/obj/item/stock_parts/cell/inserted_cell = inserted_component
-		if(inserted_cell.rigged || inserted_cell.corrupted)
-			message_admins("[ADMIN_LOOKUPFLW(usr)] has inserted rigged/corrupted [inserted_cell] into [src].")
-			usr.log_message("has inserted rigged/corrupted [inserted_cell] into [src].", LOG_GAME)
-			usr.log_message("inserted rigged/corrupted [inserted_cell] into [src]", LOG_ATTACK)
-		return
-
 	if(inserted_component.reagents)
 		if(length(inserted_component.reagents.reagent_list))
 			inserted_component.reagents.clear_reagents()
 			to_chat(usr, span_notice("[src] churns as [inserted_component] has its reagents emptied into bluespace."))
 		RegisterSignal(inserted_component.reagents, COMSIG_REAGENTS_PRE_ADD_REAGENT, PROC_REF(on_insered_component_reagent_pre_add))
+
+
+	if(!istype(inserted_component, /obj/item/stock_parts/cell))
+		return
+
+	var/obj/item/stock_parts/cell/inserted_cell = inserted_component
+
+	if(inserted_cell.rigged || inserted_cell.corrupted)
+		message_admins("[ADMIN_LOOKUPFLW(usr)] has inserted rigged/corrupted [inserted_cell] into [src].")
+		usr.log_message("has inserted rigged/corrupted [inserted_cell] into [src].", LOG_GAME)
+		usr.log_message("inserted rigged/corrupted [inserted_cell] into [src]", LOG_ATTACK)
 
 /**
  * Signal handler for when the reagents datum of an inserted part has reagents added to it.
@@ -195,7 +199,7 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 		new /obj/item/stock_parts/micro_laser(src)
 		new /obj/item/stock_parts/matter_bin(src)
 
-/obj/item/storage/part_replacer/cyborg
+/obj/item/storage/part_replacer/cyborg //SKYRAT EDIT - ICON OVERRIDEN BY AESTHETICS - SEE MODULE
 	name = "rapid part exchange device"
 	desc = "Special mechanical module made to store, sort, and apply standard machine parts."
 	icon_state = "borgrped"
@@ -230,8 +234,6 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	///Used when a base part has a different name to higher tiers of part. For example, machine frames want any servo and not just a micro-servo.
 	var/base_name
 	var/energy_rating = 1
-	///The generic category type that the stock part belongs to.  Generic objects that should not be instantiated should have the same type and abstract_type
-	var/abstract_type = /obj/item/stock_parts
 
 /obj/item/stock_parts/Initialize(mapload)
 	. = ..()
@@ -401,11 +403,6 @@ If you create T5+ please take a pass at mech_fabricator.dm. The parts being good
 	custom_materials = list(/datum/material/iron=SMALL_MATERIAL_AMOUNT*0.8)
 
 // Subspace stock parts
-
-/obj/item/stock_parts/subspace
-	name = "subspace stock part"
-	desc = "What?"
-	abstract_type = /obj/item/stock_parts/subspace
 
 /obj/item/stock_parts/subspace/ansible
 	name = "subspace ansible"

@@ -100,14 +100,6 @@ const ProductCategory = (props, context) => {
                 Purchasing this item will give you:{' '}
                 {product.rewards_points_rate * product.price} rewards points
               </Box>
-              {product.keepable ? (
-                <Box opacity={0.85} textAlign="center" bold>
-                  This NIFSoft carries between shifts
-                </Box>
-              ) : (
-                <> </>
-              )}
-              <br />
             </Section>
           </Flex.Item>
         ))}

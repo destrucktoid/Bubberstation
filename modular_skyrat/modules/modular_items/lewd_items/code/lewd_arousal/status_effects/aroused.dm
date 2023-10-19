@@ -12,11 +12,11 @@
 
 /datum/status_effect/aroused
 	id = "aroused"
-	tick_interval = 1 SECONDS
+	tick_interval = 10
 	duration = -1
 	alert_type = null
 
-/datum/status_effect/aroused/tick(seconds_between_ticks)
+/datum/status_effect/aroused/tick()
 	if(owner.stat >= DEAD || !owner.client?.prefs?.read_preference(/datum/preference/toggle/erp))
 		return
 

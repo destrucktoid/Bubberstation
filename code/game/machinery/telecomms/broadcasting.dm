@@ -183,7 +183,11 @@
 
 	// Add observers who have ghost radio enabled.
 	for(var/mob/dead/observer/ghost in GLOB.player_list)
-		if(get_chat_toggles(ghost.client) & CHAT_GHOSTRADIO)
+		if(ghost.client && !ghost.client.prefs)
+			stack_trace("[ghost] ([ghost.ckey]) had null prefs, which shouldn't be possible!")
+			continue
+
+		if(ghost.client?.prefs.chat_toggles & CHAT_GHOSTRADIO)
 			receive |= ghost
 
 	// Render the message and have everybody hear it.
@@ -197,7 +201,7 @@
 			stack_trace("null found in the hearers list returned by the spatial grid. this is bad")
 			continue
 
-		hearer.Hear(rendered, virt, language, message, frequency, spans, message_mods, message_range = INFINITY)
+		hearer.Hear(rendered, virt, language, message, frequency, spans, message_mods)
 
 	// This following recording is intended for research and feedback in the use of department radio channels
 	if(length(receive))

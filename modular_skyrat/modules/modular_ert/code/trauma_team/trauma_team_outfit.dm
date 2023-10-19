@@ -29,7 +29,7 @@
 		/obj/item/reagent_containers/hypospray/combat,\
 		/obj/item/gun/medbeam,\
 		/obj/item/storage/medkit/tactical/ntrauma,\
-		/obj/item/emergency_bed,\
+		/obj/item/roller,\
 		)
 
 /*
@@ -83,6 +83,7 @@
 
 /obj/item/storage/medkit/tactical/ntrauma/PopulateContents()
 	new /obj/item/stack/medical/gauze(src)
+	new /obj/item/stack/medical/splint(src)
 	new /obj/item/defibrillator/compact/combat/loaded/nanotrasen(src)
 	new /obj/item/reagent_containers/pill/patch/libital(src)
 	new /obj/item/reagent_containers/pill/patch/libital(src)

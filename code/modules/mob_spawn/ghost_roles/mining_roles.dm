@@ -129,8 +129,7 @@
 	name = "Space Bartender"
 	id = /obj/item/card/id/advanced
 	id_trim = /datum/id_trim/space_bartender
-	neck = /obj/item/clothing/neck/bowtie
-	uniform = /obj/item/clothing/under/costume/buttondown/slacks/service
+	uniform = /obj/item/clothing/under/rank/civilian/bartender
 	suit = /obj/item/clothing/suit/armor/vest
 	back = /obj/item/storage/backpack
 	glasses = /obj/item/clothing/glasses/sunglasses/reagent
@@ -236,11 +235,14 @@
 	return ..()
 
 /obj/effect/mob_spawn/ghost_role/human/ash_walker/allow_spawn(mob/user, silent = FALSE)
-	if(!(user.ckey in team.players_spawned))//one per person unless you get a bonus spawn
-		return TRUE
-	if(!silent)
-		to_chat(user, span_warning("You have exhausted your usefulness to the Necropolis."))
-	return FALSE
+	if(!(user.key in team.players_spawned))// Repurpose this to give a slight blurb on spawning in.
+		to_chat(user, span_notice("The Necropolis welcomes a new Servant. Listen to your fellow Ashwalkers, learn and be observant. Do not go out of your way to bring hostiles to your tribe."))
+	//if(!silent) //We remove this in order to allow people to respawn indefinitely without a snide comment.
+		//to_chat(user, span_warning("You have exhausted your usefulness to the Necropolis."))
+	if(!team) //Nonmodular addition. This wont be changed anytime soon, and should fix errors when attempting to adminspawn it.
+		to_chat(user, span_warning("The Necropolis is in Anarchy! The binds that Hold your Kin together have fallen apart. No further life can be produced here."))
+		return FALSE
+	return TRUE //Always return true (Infinite Egg Takes)
 
 /obj/effect/mob_spawn/ghost_role/human/ash_walker/special(mob/living/carbon/human/spawned_human)
 	// SKYRAT EDIT MOVE
@@ -253,8 +255,8 @@
 
 	spawned_human.mind.add_antag_datum(/datum/antagonist/ashwalker, team)
 
-	spawned_human.remove_language(/datum/language/common)
-	team.players_spawned += (spawned_human.ckey)
+	//spawned_human.remove_language(/datum/language/common) -Nonmodular removal. Allows Ashwalkers to speak common and properly learn other languages.
+	team.players_spawned += (spawned_human.key)
 	eggshell.egg = null
 	QDEL_NULL(eggshell)
 
@@ -316,7 +318,7 @@
 	ears = /obj/item/radio/headset/syndicate/alt
 	shoes = /obj/item/clothing/shoes/combat
 	r_pocket = /obj/item/gun/ballistic/automatic/pistol
-	// r_hand = /obj/item/gun/ballistic/rifle/sniper_rifle //Bubberstation Edit
+	r_hand = /obj/item/gun/ballistic/rifle/sniper_rifle
 
 	implants = list(/obj/item/implant/weapons_auth)
 	id_trim = /datum/id_trim/syndicom/skyrat/interdyne //SKYRAT EDIT

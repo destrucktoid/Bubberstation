@@ -22,7 +22,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/extinguisher_cabinet, 29)
 		stored_extinguisher = new /obj/item/extinguisher(src)
 	update_appearance(UPDATE_ICON)
 	register_context()
-	find_and_hang_on_wall()
 
 /obj/structure/extinguisher_cabinet/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
@@ -47,7 +46,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/extinguisher_cabinet, 29)
 
 /obj/structure/extinguisher_cabinet/Destroy()
 	if(stored_extinguisher)
-		QDEL_NULL(stored_extinguisher)
+		qdel(stored_extinguisher)
+		stored_extinguisher = null
 	return ..()
 
 /obj/structure/extinguisher_cabinet/contents_explosion(severity, target)
@@ -62,8 +62,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/extinguisher_cabinet, 29)
 		if(EXPLODE_LIGHT)
 			SSexplosions.low_mov_atom += stored_extinguisher
 
-/obj/structure/extinguisher_cabinet/Exited(atom/movable/gone, direction)
-	if(gone == stored_extinguisher)
+/obj/structure/extinguisher_cabinet/handle_atom_del(atom/A)
+	if(A == stored_extinguisher)
 		stored_extinguisher = null
 		update_appearance(UPDATE_ICON)
 
@@ -104,9 +104,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/extinguisher_cabinet, 29)
 	if(stored_extinguisher)
 		user.put_in_hands(stored_extinguisher)
 		user.balloon_alert(user, "extinguisher removed")
+		stored_extinguisher = null
 		if(!opened)
 			opened = 1
 			playsound(loc, 'sound/machines/click.ogg', 15, TRUE, -3)
+		update_appearance(UPDATE_ICON)
 	else
 		toggle_cabinet(user)
 

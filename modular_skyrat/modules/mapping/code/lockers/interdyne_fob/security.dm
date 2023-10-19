@@ -71,12 +71,13 @@
 /obj/structure/closet/secure_closet/interdynefob/munitions_locker/PopulateContents()
 	..()
 
-	generate_items_inside(list(
-		/obj/item/ammo_box/magazine/c35sol_pistol = 6,
-		/obj/item/ammo_box/magazine/c35sol_pistol/stendo = 2,
-		/obj/item/ammo_box/c35sol = 2,
-		/obj/item/ammo_box/magazine/c40sol_rifle/standard = 2,
-		/obj/item/ammo_box/c40sol = 2,
-		/obj/item/ammo_box/advanced/s12gauge = 2,
-		/obj/item/ammo_box/advanced/s12gauge/rubber = 2,
-	),src)
+	new /obj/item/ammo_box/c9mm(src)
+	new /obj/item/ammo_box/c9mm(src)
+	new /obj/item/ammo_box/magazine/m9mm(src)
+	new /obj/item/ammo_box/magazine/m9mm(src)
+	new /obj/item/ammo_box/magazine/m9mm(src)
+	new /obj/item/ammo_box/magazine/m9mm(src)
+	new /obj/item/ammo_box/advanced/s12gauge(src)
+	new /obj/item/ammo_box/advanced/s12gauge(src)
+	new /obj/item/ammo_box/advanced/s12gauge/rubber(src)
+	new /obj/item/ammo_box/advanced/s12gauge/rubber(src)

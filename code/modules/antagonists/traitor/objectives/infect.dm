@@ -121,7 +121,7 @@
 		return FALSE //MISSION FAILED, WE'LL GET EM NEXT TIME
 
 	var/datum/mind/target_mind = pick(possible_targets)
-	set_target(target_mind.current)
+	target = target_mind.current
 	replace_in_name("%TARGET%", target.real_name)
 	replace_in_name("%JOB TITLE%", target_mind.assigned_role.title)
 	RegisterSignal(target, COMSIG_LIVING_DEATH, PROC_REF(on_target_death))
@@ -129,17 +129,17 @@
 
 /datum/traitor_objective/target_player/infect/ungenerate_objective()
 	UnregisterSignal(target, COMSIG_LIVING_DEATH)
-	set_target(null)
+	target = null
 
 ///proc for checking for special states that invalidate a target
 /datum/traitor_objective/target_player/infect/proc/special_target_filter(list/possible_targets)
 	return
 
-/datum/traitor_objective/target_player/infect/target_deleted()
+/datum/traitor_objective/target_player/infect/proc/on_target_qdeleted()
+	SIGNAL_HANDLER
 	if(objective_state == OBJECTIVE_STATE_INACTIVE)
 		//don't take an objective target of someone who is already obliterated
 		fail_objective()
-	return ..()
 
 /datum/traitor_objective/target_player/infect/proc/on_target_death()
 	SIGNAL_HANDLER
@@ -156,7 +156,6 @@
 	volume = 30
 	amount_per_transfer_from_this = 30
 	list_reagents = list(/datum/reagent/medicine/sansufentanyl = 20)
-	stealthy = TRUE
 	//Was the injector used on someone yet?
 	var/used = FALSE
 

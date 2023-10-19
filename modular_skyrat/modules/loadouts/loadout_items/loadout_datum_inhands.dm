@@ -27,10 +27,6 @@ GLOBAL_LIST_INIT(loadout_inhand_items, generate_loadout_items(/datum/loadout_ite
 	name = "Cane"
 	item_path = /obj/item/cane
 
-/datum/loadout_item/inhand/cane/crutch
-	name = "Crutch"
-	item_path = /obj/item/cane/crutch
-
 /datum/loadout_item/inhand/cane/white
 	name = "White Cane"
 	item_path = /obj/item/cane/white

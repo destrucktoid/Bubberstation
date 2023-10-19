@@ -46,9 +46,7 @@
 
 /obj/item/mod/construction/broken_core/screwdriver_act(mob/living/user, obj/item/tool)
 	. = ..()
-	balloon_alert(user, "repairing...")
 	if(!tool.use_tool(src, user, 5 SECONDS, volume = 30))
-		balloon_alert(user, "interrupted!")
 		return
 	new /obj/item/mod/core/standard(drop_location())
 	qdel(src)
@@ -68,15 +66,19 @@
 
 /obj/item/mod/construction/lavalandcore/attackby(obj/item/weapon, mob/user, params)
 	if(!istype(weapon, /obj/item/stack/cable_coil))
-		return ..()
+		return
+
 	if(!weapon.tool_start_check(user, amount=2))
 		return
-	balloon_alert(user, "installing wires...")
+
+	to_chat(user, span_notice("You start pushing the wires into the core..."))
 	if(!weapon.use_tool(src, user, 5 SECONDS, amount = 2, volume = 30))
-		balloon_alert(user, "interrupted!")
 		return
+
+	to_chat(user, span_notice("You add the wires to the core."))
 	new /obj/item/mod/core/plasma/lavaland(drop_location())
 	qdel(src)
+
 
 /obj/item/mod/construction/plating
 	name = "MOD external plating"
@@ -281,18 +283,18 @@
 	QDEL_NULL(boots)
 	return ..()
 
-/obj/item/mod/construction/shell/Exited(atom/movable/gone, direction)
-	. = ..()
-	if(gone == core)
+/obj/item/mod/construction/shell/handle_atom_del(atom/deleted_atom)
+	if(deleted_atom == core)
 		core = null
-	if(gone == helmet)
+	if(deleted_atom == helmet)
 		helmet = null
-	if(gone == chestplate)
+	if(deleted_atom == chestplate)
 		chestplate = null
-	if(gone == gauntlets)
+	if(deleted_atom == gauntlets)
 		gauntlets = null
-	if(gone == boots)
+	if(deleted_atom == boots)
 		boots = null
+	return ..()
 
 #undef START_STEP
 #undef CORE_STEP

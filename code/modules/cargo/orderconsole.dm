@@ -113,11 +113,9 @@
 		message = blockade_warning
 	data["message"] = message
 
-	var/list/amount_by_name = list()
 	var/cart_list = list()
 	for(var/datum/supply_order/order in SSshuttle.shopping_list)
 		if(cart_list[order.pack.name])
-			amount_by_name[order.pack.name] += 1
 			cart_list[order.pack.name][1]["amount"]++
 			cart_list[order.pack.name][1]["cost"] += order.get_final_cost()
 			if(order.department_destination)
@@ -126,7 +124,6 @@
 				cart_list[order.pack.name][1]["paid"]++
 			continue
 
-		amount_by_name[order.pack.name] += 1
 		cart_list[order.pack.name] = list(list(
 			"cost_type" = order.cost_type,
 			"object" = order.pack.name,
@@ -144,23 +141,19 @@
 
 
 	data["requests"] = list()
-	for(var/datum/supply_order/order in SSshuttle.request_list)
-		var/datum/supply_pack/pack = order.pack
-		amount_by_name[pack.name] += 1
+	for(var/datum/supply_order/SO in SSshuttle.request_list)
 		data["requests"] += list(list(
-			"object" = pack.name,
-			"cost" = pack.get_cost(),
-			"orderer" = order.orderer,
-			"reason" = order.reason,
-			"id" = order.id
+			"object" = SO.pack.name,
+			"cost" = SO.pack.get_cost(),
+			"orderer" = SO.orderer,
+			"reason" = SO.reason,
+			"id" = SO.id
 		))
-	data["amount_by_name"] = amount_by_name
 
 	return data
 
 /obj/machinery/computer/cargo/ui_static_data(mob/user)
 	var/list/data = list()
-	data["max_order"] = CARGO_MAX_ORDER
 	data["supplies"] = list()
 	for(var/pack in SSshuttle.supply_packs)
 		var/datum/supply_pack/P = SSshuttle.supply_packs[pack]
@@ -194,7 +187,7 @@
 	var/datum/supply_pack/pack = SSshuttle.supply_packs[id]
 	if(!istype(pack))
 		CRASH("Unknown supply pack id given by order console ui. ID: [id]")
-	if(amount > CARGO_MAX_ORDER || amount < 1) // Holy shit fuck off
+	if(amount > 50 || amount < 1) // Holy shit fuck off
 		CRASH("Invalid amount passed into add_item")
 	if((pack.hidden && !(obj_flags & EMAGGED)) || (pack.contraband && !contraband) || pack.drop_pod_only || (pack.special && !pack.special_enabled))
 		return
@@ -229,11 +222,8 @@
 			say("[id_card] lacks the requisite access for this purchase.")
 			return
 
-	// The list we are operating on right now
-	var/list/working_list = SSshuttle.shopping_list
 	var/reason = ""
 	if(requestonly && !self_paid)
-		working_list = SSshuttle.request_list
 		reason = tgui_input_text(user, "Reason", name)
 		if(isnull(reason))
 			return
@@ -243,13 +233,6 @@
 		say("ERROR: Small crates may only be purchased by private accounts.")
 		return
 
-	var/similar_count = SSshuttle.supply.get_order_count(pack)
-	if(similar_count == OVER_ORDER_LIMIT)
-		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
-		say("ERROR: No more then [CARGO_MAX_ORDER] of any pack may be ordered at once")
-		return
-
-	amount = clamp(amount, 1, CARGO_MAX_ORDER - similar_count)
 	for(var/count in 1 to amount)
 		var/obj/item/coupon/applied_coupon
 		for(var/obj/item/coupon/coupon_check in loaded_coupons)
@@ -259,8 +242,15 @@
 				applied_coupon = coupon_check
 				break
 
-		var/datum/supply_order/order = new(pack = pack ,orderer = name, orderer_rank = rank, orderer_ckey = ckey, reason = reason, paying_account = account, coupon = applied_coupon, charge_on_purchase = TRUE) //SKYRAT EDIT CHANGE - ORIGINAL: var/datum/supply_order/order = new(pack = pack ,orderer = name, orderer_rank = rank, orderer_ckey = ckey, reason = reason, paying_account = account, coupon = applied_coupon)
-		working_list += order
+		//Skyrat Edit Add
+		var/datum/supply_order/SO = new(pack = pack ,orderer = name, orderer_rank = rank, orderer_ckey = ckey, reason = reason, paying_account = account, coupon = applied_coupon, charge_on_purchase = TRUE)
+		//Skyrat Edit End
+		//SKYRAT EDIT - ORIGINAL: var/datum/supply_order/SO = new(pack = pack ,orderer = name, orderer_rank = rank, orderer_ckey = ckey, reason = reason, paying_account = account, coupon = applied_coupon)
+
+		if(requestonly && !self_paid)
+			SSshuttle.request_list += SO
+		else
+			SSshuttle.shopping_list += SO
 
 	if(self_paid)
 		say("Order processed. The price will be charged to [account.account_holder]'s bank account on delivery.")
@@ -284,6 +274,11 @@
 		if(order.applied_coupon)
 			say("Coupon refunded.")
 			order.applied_coupon.forceMove(get_turf(src))
+		//SKYRAT EDIT START
+		if(istype(order, /datum/supply_order/company_import))
+			var/datum/supply_order/company_import/the_order = order
+			the_order.reimburse_armament()
+		//SKYRAT EDIT END
 		SSshuttle.shopping_list -= order
 		. = TRUE
 		break
@@ -375,7 +370,9 @@
 		if("remove")
 			var/order_name = params["order_name"]
 			//try removing atleast one item with the specified name. An order may not be removed if it was from the department
-			for(var/datum/supply_order/order in SSshuttle.shopping_list)
+			//also we create an copy of the cart list else we would get runtimes when removing & iterating over the same SSshuttle.shopping_list
+			var/list/shopping_cart = SSshuttle.shopping_list.Copy()
+			for(var/datum/supply_order/order in shopping_cart)
 				if(order.pack.name != order_name)
 					continue
 				if(remove_item(order.id))
@@ -386,7 +383,8 @@
 			var/order_name = params["order_name"]
 
 			//clear out all orders with the above mentioned order_name name to make space for the new amount
-			for(var/datum/supply_order/order in SSshuttle.shopping_list) //find corresponding order id for the order name
+			var/list/shopping_cart = SSshuttle.shopping_list.Copy() //we operate on the list copy else we would get runtimes when removing & iterating over the same SSshuttle.shopping_list
+			for(var/datum/supply_order/order in shopping_cart) //find corresponding order id for the order name
 				if(order.pack.name == order_name)
 					remove_item(order.id)
 
@@ -394,7 +392,7 @@
 			var/amount = text2num(params["amount"])
 			if(amount == 0)
 				return TRUE
-			if(amount > CARGO_MAX_ORDER)
+			if(amount > 50)
 				return
 			var/supply_pack_id = name_to_id(order_name) //map order name to supply pack id for adding
 			if(!supply_pack_id)
@@ -428,6 +426,12 @@
 		if("toggleprivate")
 			self_paid = !self_paid
 			. = TRUE
+		//SKYRAT EDIT START
+		if("company_import_window")
+			var/datum/component/armament/company_imports/company_import_component = GetComponent(/datum/component/armament/company_imports)
+			company_import_component.ui_interact(usr)
+			. = TRUE
+		//SKYRAT EDIT END
 	if(.)
 		post_signal(cargo_shuttle)
 

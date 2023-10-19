@@ -24,8 +24,6 @@
 	var/species
 	/// The character's ID trim
 	var/trim
-	/// The character's voice, if they have one.
-	var/voice
 
 /datum/record/New(
 	age = 18,
@@ -39,7 +37,6 @@
 	rank = "Unassigned",
 	species = "Human",
 	trim = "Unassigned",
-	voice = "?????",
 )
 	src.age = age
 	src.blood_type = blood_type
@@ -141,9 +138,9 @@
  */
 /datum/record/locked
 	/// Mob's dna
-	var/datum/dna/locked_dna
+	var/datum/dna/dna_ref
 	/// Mind datum
-	var/datum/weakref/mind_ref
+	var/datum/mind/mind_ref
 	/// Typepath of species used by player, for usage in respawning via records
 	var/species_type
 
@@ -160,13 +157,13 @@
 	species = "Human",
 	trim = "Unassigned",
 	/// Locked specific
-	datum/dna/locked_dna,
+	datum/dna/dna_ref,
 	datum/mind/mind_ref,
 )
 	. = ..()
-	src.locked_dna = locked_dna
-	src.mind_ref = WEAKREF(mind_ref)
-	species_type = locked_dna.species.type
+	src.dna_ref = dna_ref
+	src.mind_ref = mind_ref
+	species_type = dna_ref.species.type
 
 	GLOB.manifest.locked += src
 

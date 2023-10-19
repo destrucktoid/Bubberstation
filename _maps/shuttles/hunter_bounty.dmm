@@ -102,10 +102,6 @@
 /obj/item/phone,
 /turf/open/floor/pod/dark,
 /area/shuttle/hunter)
-"x" = (
-/obj/machinery/fugitive_locator,
-/turf/open/floor/pod/light,
-/area/shuttle/hunter)
 "y" = (
 /obj/structure/chair/office{
 	dir = 8
@@ -495,7 +491,7 @@ a
 b
 i
 A
-x
+n
 I
 i
 b

@@ -25,26 +25,16 @@ export const PaintingMachine = (props, context) => {
         <Section
           title="PDA Painter"
           buttons={
-            <>
-              <Button.Confirm
-                disabled={!hasPDA}
-                content="Paint PDA"
-                confirmContent="Confirm?"
-                onClick={() =>
-                  act('trim_pda', {
-                    selection: selectedPDA,
-                  })
-                }
-              />
-              <Button.Confirm
-                disabled={!hasPDA}
-                content="Reset Imprint"
-                confirmContent="Confirm?"
-                onClick={() => {
-                  act('reset_pda');
-                }}
-              />
-            </>
+            <Button.Confirm
+              disabled={!hasPDA}
+              content="Paint PDA"
+              confirmContent="Confirm?"
+              onClick={() =>
+                act('trim_pda', {
+                  selection: selectedPDA,
+                })
+              }
+            />
           }>
           <Stack vertical>
             <Stack.Item height="100%">

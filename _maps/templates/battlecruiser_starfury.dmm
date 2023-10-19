@@ -125,6 +125,13 @@
 	},
 /turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
+"at" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/airalarm/directional/north,
+/turf/open/floor/iron/dark,
+/area/shuttle/sbc_starfury)
 "av" = (
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
@@ -150,7 +157,6 @@
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "ay" = (
@@ -520,7 +526,6 @@
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/effect/turf_decal/tile/green/full,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark/textured_large,
 /area/shuttle/sbc_starfury)
 "bZ" = (
@@ -657,12 +662,13 @@
 "cz" = (
 /obj/machinery/newscaster/directional/south,
 /obj/structure/table/reinforced/plastitaniumglass,
-/obj/item/toy/figure/syndie{
-	pixel_x = -6;
-	pixel_y = 6
-	},
-/obj/item/toy/nuke{
-	pixel_x = 3
+/obj/machinery/turretid{
+	ailock = 1;
+	desc = "A specially designed set of turret controls. Looks to be covered in protective casing to prevent AI interfacing.";
+	icon_state = "control_stun";
+	name = "Ship Turret Control";
+	pixel_y = 2;
+	req_access = list("syndicate")
 	},
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/sbc_starfury)
@@ -899,8 +905,9 @@
 /area/shuttle/sbc_starfury)
 "dx" = (
 /obj/structure/cable,
-/obj/machinery/airalarm/directional/south,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/south{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
 "dz" = (
@@ -972,7 +979,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "dL" = (
@@ -1028,8 +1034,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/door/airlock/multi_tile/public/glass,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
+/obj/machinery/door/airlock/glass_large,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "dV" = (
@@ -1145,7 +1150,9 @@
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/sbc_starfury)
 "ev" = (
-/obj/machinery/airalarm/directional/west,
+/obj/machinery/airalarm/directional/west{
+	req_access = list("syndicate")
+	},
 /obj/machinery/light/directional/west,
 /obj/machinery/shieldgen{
 	active = 1;
@@ -1159,7 +1166,6 @@
 /obj/effect/turf_decal/stripes/red/end{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
 "ex" = (
@@ -1291,8 +1297,6 @@
 /obj/effect/turf_decal/stripes/red/end{
 	dir = 8
 	},
-/obj/machinery/airalarm/directional/east,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
 "eN" = (
@@ -1545,9 +1549,10 @@
 /area/shuttle/sbc_starfury)
 "fy" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/machinery/light/small/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/carpet/orange,
 /area/shuttle/sbc_starfury)
 "fz" = (
@@ -1590,14 +1595,14 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/multi_tile/public/glass,
+/obj/machinery/door/airlock/glass_large,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "fF" = (
 /obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/multi_tile/public/glass,
+/obj/machinery/door/airlock/glass_large,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "fG" = (
@@ -1612,7 +1617,6 @@
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/effect/turf_decal/siding/dark,
 /obj/machinery/door/airlock/hatch,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/showroomfloor,
 /area/shuttle/sbc_starfury)
 "fS" = (
@@ -1781,7 +1785,6 @@
 /obj/effect/mapping_helpers/airlock/cutaiwire,
 /obj/machinery/door/airlock/hatch,
 /obj/effect/turf_decal/siding/wood,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/wood,
 /area/shuttle/sbc_starfury)
 "gW" = (
@@ -1897,7 +1900,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/hatch,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "hh" = (
@@ -1968,8 +1970,9 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/iron/dark/side{
 	dir = 9
 	},
@@ -2030,12 +2033,13 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/structure/cable,
 /obj/effect/turf_decal/tile/red/half/contrasted{
 	dir = 1
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "hv" = (
@@ -2088,28 +2092,28 @@
 /obj/item/ammo_box/a40mm{
 	icon_state = "40mm-4"
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30";
 	pixel_x = 2;
 	pixel_y = 4
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30";
 	pixel_x = 2;
 	pixel_y = 4
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30"
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30"
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30";
 	pixel_x = -2;
 	pixel_y = -4
 	},
-/obj/item/ammo_box/magazine/m223{
+/obj/item/ammo_box/magazine/m556{
 	icon_state = "5.56m-30";
 	pixel_x = -2;
 	pixel_y = -4
@@ -2131,7 +2135,6 @@
 	dir = 8
 	},
 /obj/machinery/door/airlock/hatch,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "hG" = (
@@ -2461,12 +2464,13 @@
 /turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/sbc_starfury)
 "iw" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
 /obj/effect/spawner/random/trash/bucket,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
 "ix" = (
@@ -2475,7 +2479,7 @@
 	layer = 2.9
 	},
 /obj/item/storage/belt/military,
-/obj/item/ammo_box/magazine/m7mm,
+/obj/item/ammo_box/magazine/mm712x82,
 /obj/item/gun/ballistic/automatic/l6_saw,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
@@ -2510,9 +2514,10 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 1
 	},
-/obj/machinery/airalarm/directional/south,
+/obj/machinery/airalarm/directional/south{
+	req_access = list("syndicate")
+	},
 /obj/machinery/light/small/directional/south,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/carpet,
 /area/shuttle/sbc_starfury)
 "iD" = (
@@ -2546,8 +2551,9 @@
 /obj/item/pen{
 	pixel_x = -5
 	},
-/obj/machinery/airalarm/directional/east,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/east{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/carpet/red,
 /area/shuttle/sbc_starfury)
 "iI" = (
@@ -2669,8 +2675,9 @@
 	req_access = list("syndicate")
 	},
 /obj/effect/turf_decal/bot/right,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/iron/smooth,
 /area/shuttle/sbc_starfury)
 "iV" = (
@@ -3050,11 +3057,12 @@
 /turf/open/floor/plating/airless,
 /area/shuttle/sbc_starfury)
 "kp" = (
-/obj/machinery/airalarm/directional/west,
+/obj/machinery/airalarm/directional/west{
+	req_access = list("syndicate")
+	},
 /obj/effect/turf_decal/tile/yellow/anticorner/contrasted{
 	dir = 1
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
 "kq" = (
@@ -3116,12 +3124,13 @@
 /area/shuttle/sbc_starfury)
 "ky" = (
 /obj/structure/closet/toolcloset,
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/airalarm/directional/east{
+	req_access = list("syndicate")
+	},
 /obj/structure/railing,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 4
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "kz" = (
@@ -3843,8 +3852,9 @@
 	},
 /obj/effect/turf_decal/siding/thinplating_new/dark,
 /obj/effect/turf_decal/stripes/red/line,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/mineral/plastitanium/red,
 /area/shuttle/sbc_starfury)
 "qb" = (
@@ -3885,7 +3895,7 @@
 /turf/open/floor/engine,
 /area/shuttle/sbc_starfury)
 "qQ" = (
-/obj/machinery/cryo_cell,
+/obj/machinery/atmospherics/components/unary/cryo_cell,
 /turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
 "qS" = (
@@ -4014,8 +4024,9 @@
 /obj/item/storage/backpack/duffelbag/syndie/surgery,
 /obj/item/defibrillator/compact/combat/loaded,
 /obj/item/gun/syringe/rapidsyringe,
-/obj/machinery/airalarm/directional/east,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/east{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
 "ui" = (
@@ -4376,10 +4387,11 @@
 /turf/open/floor/iron/dark/textured_large,
 /area/shuttle/sbc_starfury)
 "zz" = (
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/airalarm/directional/east{
+	req_access = list("syndicate")
+	},
 /obj/item/kirbyplants/fern,
 /obj/effect/turf_decal/tile/neutral,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "zE" = (
@@ -4426,8 +4438,9 @@
 	},
 /obj/item/assembly/flash/handheld,
 /obj/effect/turf_decal/siding/dark_green,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
 "Ay" = (
@@ -4440,12 +4453,13 @@
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "AF" = (
-/obj/machinery/airalarm/directional/west,
+/obj/machinery/airalarm/directional/west{
+	req_access = list("syndicate")
+	},
 /obj/item/kirbyplants/random,
 /obj/effect/turf_decal/tile/neutral{
 	dir = 8
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "AH" = (
@@ -4457,8 +4471,7 @@
 "AJ" = (
 /obj/machinery/door/firedoor/heavy,
 /obj/effect/mapping_helpers/airlock/cutaiwire,
-/obj/machinery/door/airlock/multi_tile/public/glass,
-/obj/effect/mapping_helpers/airlock/access/all/syndicate/general,
+/obj/machinery/door/airlock/glass_large,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "AQ" = (
@@ -4592,8 +4605,9 @@
 	},
 /obj/effect/turf_decal/bot,
 /obj/structure/cable,
-/obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/engine,
 /area/shuttle/sbc_starfury)
 "DV" = (
@@ -4769,14 +4783,15 @@
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "Gv" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/machinery/vending/coffee{
 	extended_inventory = 1
 	},
 /obj/effect/turf_decal/tile/dark_red{
 	dir = 1
 	},
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "Gz" = (
@@ -4785,8 +4800,7 @@
 	desc = "A medical bot of syndicate origins. Probably plots about how to stab you full of toxins in its free time.";
 	faction = list("neutral","silicon","turret","Syndicate");
 	name = "Syndicate Medibot";
-	skin = "bezerk";
-	maints_access_required = list("syndicate")
+	skin = "bezerk"
 	},
 /turf/open/floor/iron,
 /area/shuttle/sbc_starfury)
@@ -4907,11 +4921,12 @@
 	dir = 8;
 	layer = 2.9
 	},
-/obj/machinery/airalarm/directional/east,
+/obj/machinery/airalarm/directional/east{
+	req_access = list("syndicate")
+	},
 /obj/item/storage/belt/military,
 /obj/item/ammo_box/magazine/sniper_rounds,
 /obj/item/gun/ballistic/rifle/sniper_rifle/syndicate,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/pod/light,
 /area/shuttle/sbc_starfury)
 "Jm" = (
@@ -5003,14 +5018,6 @@
 /area/shuttle/sbc_starfury)
 "KP" = (
 /obj/machinery/light/directional/south,
-/obj/machinery/turretid{
-	ailock = 1;
-	desc = "A specially designed set of turret controls. Looks to be covered in protective casing to prevent AI interfacing.";
-	icon_state = "control_stun";
-	name = "Ship Turret Control";
-	pixel_y = -28;
-	req_access = list("syndicate")
-	},
 /turf/open/floor/mineral/plastitanium,
 /area/shuttle/sbc_starfury)
 "KR" = (
@@ -5023,10 +5030,6 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/mineral/plastitanium,
-/area/shuttle/sbc_starfury)
-"Lt" = (
-/obj/structure/marker_beacon/burgundy,
-/turf/open/floor/plating,
 /area/shuttle/sbc_starfury)
 "LH" = (
 /obj/structure/table,
@@ -5176,8 +5179,9 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/machinery/airalarm/directional/south,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
+/obj/machinery/airalarm/directional/south{
+	req_access = list("syndicate")
+	},
 /turf/open/floor/pod/dark,
 /area/shuttle/sbc_starfury)
 "OG" = (
@@ -5277,7 +5281,6 @@
 "PY" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/machinery/airalarm/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "Qf" = (
@@ -5700,17 +5703,19 @@
 "XN" = (
 /obj/machinery/computer/monitor,
 /obj/structure/cable,
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/effect/turf_decal/tile/neutral/fourcorners,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark,
 /area/shuttle/sbc_starfury)
 "XZ" = (
-/obj/machinery/airalarm/directional/north,
+/obj/machinery/airalarm/directional/north{
+	req_access = list("syndicate")
+	},
 /obj/effect/turf_decal/tile/bar/diagonal_centre,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/machinery/light/directional/north,
-/obj/effect/mapping_helpers/airalarm/syndicate_access,
 /turf/open/floor/iron/dark/diagonal,
 /area/shuttle/sbc_starfury)
 "Yc" = (
@@ -6592,7 +6597,7 @@ ae
 eT
 pa
 eA
-Lt
+aH
 aH
 aH
 aH
@@ -6605,7 +6610,7 @@ aH
 aH
 aH
 aH
-Lt
+aH
 hB
 eR
 fh
@@ -6784,7 +6789,7 @@ aV
 aJ
 cf
 vk
-vk
+at
 vk
 ci
 ae
@@ -7068,7 +7073,6 @@ xG
 aw
 ec
 eB
-Lt
 aH
 aH
 aH
@@ -7081,7 +7085,8 @@ aH
 aH
 aH
 aH
-Lt
+aH
+aH
 hB
 ST
 ks
@@ -7544,7 +7549,7 @@ ae
 eT
 LN
 eB
-Lt
+aH
 aH
 aH
 aH
@@ -7557,7 +7562,7 @@ aH
 aH
 aH
 aH
-Lt
+aH
 hB
 fb
 fu

@@ -10,10 +10,9 @@ export const NifSoulPoem = (props, context) => {
     messages = [],
     receiving_data,
     transmitting_data,
-    theme,
   } = data;
   return (
-    <Window width={500} height={700} theme={theme}>
+    <Window width={500} height={700}>
       <Window.Content scrollable>
         <Section title="Messages">
           {messages.map((message) => (

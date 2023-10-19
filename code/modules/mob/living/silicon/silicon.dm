@@ -49,7 +49,6 @@
 	var/emagged = FALSE
 	var/hack_software = FALSE //Will be able to use hacking actions
 	interaction_range = 7 //wireless control range
-	var/control_disabled = FALSE // Set to 1 to stop AI from interacting via Click()
 
 	var/obj/item/modular_computer/pda/silicon/modularInterface
 
@@ -92,20 +91,19 @@
 /mob/living/silicon/proc/create_modularInterface()
 	if(!modularInterface)
 		modularInterface = new /obj/item/modular_computer/pda/silicon(src)
-	var/job_name = ""
 	if(isAI(src))
-		job_name = "AI"
+		modularInterface.saved_job = "AI"
 	if(ispAI(src))
-		job_name = "pAI Messenger"
+		modularInterface.saved_job = "pAI Messenger"
 
 	modularInterface.layer = ABOVE_HUD_PLANE
 	SET_PLANE_EXPLICIT(modularInterface, ABOVE_HUD_PLANE, src)
-	modularInterface.imprint_id(real_name || name, job_name)
+	modularInterface.saved_identification = real_name || name
 
 /mob/living/silicon/robot/create_modularInterface()
 	if(!modularInterface)
 		modularInterface = new /obj/item/modular_computer/pda/silicon/cyborg(src)
-		modularInterface.imprint_id(job_name = "Cyborg")
+		modularInterface.saved_job = "Cyborg"
 	return ..()
 
 /mob/living/silicon/med_hud_set_health()
@@ -469,4 +467,4 @@
 	if(!modularInterface)
 		stack_trace("Silicon [src] ( [type] ) was somehow missing their integrated tablet. Please make a bug report.")
 		create_modularInterface()
-	modularInterface.imprint_id(name = newname)
+	modularInterface.saved_identification = newname
