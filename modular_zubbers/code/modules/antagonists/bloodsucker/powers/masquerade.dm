@@ -20,6 +20,7 @@
 		- Your eyes turn to that of a regular human as your heart begins to beat.\n\
 		- You gain a Genetic sequence, and appear to have 100% blood when scanned by a Health Analyzer.\n\
 		- You will not appear as Pale when examined. Anything further than Pale, however, will not be hidden.\n\
+		- The cost of the Masquerade increases the more of your humanity you lose.\n\
 		At the end of a Masquerade, you will re-gain your Vampiric abilities, as well as lose any Disease & Gene you might have."
 	power_flags = BP_AM_TOGGLE|BP_AM_STATIC_COOLDOWN|BP_AM_COSTLESS_UNCONSCIOUS
 	check_flags = BP_CANT_USE_IN_FRENZY
@@ -101,3 +102,14 @@
 /atom/movable/screen/alert/status_effect/masquerade/MouseEntered(location,control,params)
 	desc = initial(desc)
 	return ..()
+
+/datum/action/cooldown/bloodsucker/masquerade/proc/HumanityCost(cost)
+	bloodcost = cost * 1 + bloodsuckerdatum_power.humanity_lost / 10
+
+/datum/action/cooldown/bloodsucker/masquerade/Grant()
+	. = ..()
+	RegisterSignal(bloodsuckerdatum_power, COMSIG_BLOODSUCKER_HUMANITY_COST, PROC_REF(HumanityCost))
+
+/datum/action/cooldown/bloodsucker/masquerade/Remove()
+	. = ..()
+	UnregisterSignal(bloodsuckerdatum_power, COMSIG_BLOODSUCKER_HUMANITY_COST)

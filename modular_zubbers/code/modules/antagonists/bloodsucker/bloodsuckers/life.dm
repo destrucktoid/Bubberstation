@@ -48,6 +48,7 @@
 		to_chat(owner.current, span_warning("You hit the maximum amount of lost Humanty, you are far from Human."))
 		return
 	humanity_lost += value
+	SEND_SIGNAL(src, COMSIG_BLOODSUCKER_HUMANITY_COST, value)
 	to_chat(owner.current, span_warning("You feel as if you lost some of your humanity, you will now enter Frenzy at [FRENZY_THRESHOLD_ENTER + (humanity_lost * 10)] Blood."))
 
 /// mult: SILENT feed is 1/3 the amount

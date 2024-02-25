@@ -120,6 +120,8 @@
 #define BLOODSUCKER_ENTERS_FRENZY "bloodsucker_enters_frenzy"
 ///Called when a Bloodsucker exits Frenzy
 #define BLOODSUCKER_EXITS_FRENZY "bloodsucker_exits_frenzy"
+///Called when a Bloodsucker uses an ability that has a cost varying on their humanity
+#define COMSIG_BLOODSUCKER_HUMANITY_COST "bloodsucker_humanity_cost"
 
 /**
  * Sol signals & Defines
